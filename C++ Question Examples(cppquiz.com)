@@ -2178,3 +2178,241 @@ int main() {
   print(0);
   print('A');
 }
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir sentaks hatası söz konusudur. 
+-------------------------------------------------------*/
+#include <iostream>
+#include <tuple>
+
+int main()
+{
+    const auto t = std::make_tuple(42, 3.14, 1337);
+    std::cout << std::get<int>(t);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 12 şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+void f(int a = []() { static int b = 1; return b++; }())
+{
+   std::cout << a;
+}
+
+int main()
+{
+   f();
+   f();
+}
+/*-------------------------------------------------------
+127386
+-------------------------------------------------------*/
+#include <iostream>
+
+class C {
+public:
+  C(int i) : i(i) { std::cout << i; }
+  ~C() { std::cout << i + 5; }
+
+private:
+  int i;
+};
+
+int main() {
+  const C &c = C(1);
+  C(2);
+  C(3);
+}
+/*-------------------------------------------------------
+5
+-------------------------------------------------------*/
+#include <iostream>
+
+int a = 1;
+
+int main() {
+    auto f = [](int b) { return a + b; };
+
+    std::cout << f(4);
+}
+/*-------------------------------------------------------
+--> diye bir operatör olmadığında burada maximal munch
+kuralı devreye girecektir. Bu kural ile birlikte -->
+son ek -- ve > işareti olarak değerlendirilecektir.
+Sonuç olarak ekran çıktsı 210 olarak elde edilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main()
+{
+    int x = 3;
+    while (x --> 0) // x goes to 0
+    {
+        std::cout << x;
+    }
+}
+/*-------------------------------------------------------
+ hello world
+-------------------------------------------------------*/
+#include <string>
+#include <iostream>
+
+int main() {
+  using namespace std::string_literals;
+  std::string s1("hello world",5);
+  std::string s2("hello world"s,5);
+
+  std::cout << s1 << s2;
+}
+/*-------------------------------------------------------
+ It is implementation-defined whether a char object can hold negative values.
+-------------------------------------------------------*/
+#include <iostream>
+#include <type_traits>
+
+int main()
+{
+    std::cout << std::is_signed<char>::value;
+}
+/*-------------------------------------------------------
+ ub
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+  char* a = const_cast<char*>("Hello");
+  a[4] = '\0';
+  std::cout << a;
+}
+/*-------------------------------------------------------
+ Both a and b refer to the same variable x.
+ The fact that b is a const reference does not guarantee
+ that b isn't modified from elsewhere, only that we can't modify it.
+-------------------------------------------------------*/
+#include <iostream>
+
+void f(int& a, const int& b) {
+  std::cout << b;
+  a = 1;
+  std::cout << b;
+}
+
+int main(){
+  int x = 0;
+  f(x,x);
+}
+/*-------------------------------------------------------
+001
+-------------------------------------------------------*/
+#include <iostream>
+using namespace std;
+
+size_t get_size_1(int* arr)
+{
+  return sizeof arr;
+}
+
+size_t get_size_2(int arr[])
+{
+  return sizeof arr;
+}
+
+size_t get_size_3(int (&arr)[10])
+{
+  return sizeof arr;
+}
+
+int main()
+{
+  int array[10];
+  //Assume sizeof(int*) != sizeof(int[10])
+  cout << (sizeof(array) == get_size_1(array));
+  cout << (sizeof(array) == get_size_2(array));
+  cout << (sizeof(array) == get_size_3(array));
+}
+
+/*-------------------------------------------------------
+  ub
+-------------------------------------------------------*/
+#include <iostream>
+#include <limits>
+
+int main() {
+  int i = std::numeric_limits<int>::max();
+  std::cout << ++i;
+}
+/*-------------------------------------------------------
+ AB
+-------------------------------------------------------*/
+#include<iostream>
+
+template<typename T>
+void foo(T...) {std::cout << 'A';}
+
+template<typename... T>
+void foo(T...) {std::cout << 'B';}
+
+int main(){
+   foo(1);
+   foo(1,2);
+}
+/*-------------------------------------------------------
+  bcad
+-------------------------------------------------------*/
+#include <iostream>
+#include <stdexcept>
+
+struct A {
+    A(char c) : c_(c) {}
+    ~A() { std::cout << c_; }
+    char c_;
+};
+
+struct Y { ~Y() noexcept(false) { throw std::runtime_error(""); } };
+
+A f() {
+    try {
+        A a('a');
+        Y y;
+        A b('b');
+        return {'c'};
+    } catch (...) {
+    }
+    return {'d'};
+}
+
+int main()
+{
+    f();
+}
+/*-------------------------------------------------------
+ Unspecified behaviour
+-------------------------------------------------------*/
+#include <cstddef>
+#include <iostream>
+
+void f(void*) {
+    std::cout << 1;
+}
+
+void f(std::nullptr_t) {
+    std::cout << 2;
+}
+
+int main() {
+    int* a{};
+
+    f(a);
+    f(nullptr);
+    f(NULL);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte sentaks hatasının nedeni yazıların C++ 
+  dilinde const char[] türü olmasından kaynaklanmaktadır.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+    char* str = "X";
+    std::cout << str;
+}
