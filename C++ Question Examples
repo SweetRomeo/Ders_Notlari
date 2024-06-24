@@ -39,3 +39,30 @@ int main() {
     S s{1,2};
     std::cout << s.one;
 }
+/*-------------------------------------------------------
+Aşağıdaki örnekte ekran çıktısı 10 olacaktır. virgül operatörünün
+ürettiği değer her ne kadar sağ operand olsa da öncelik
+seviyesi olarak son sıradadır. Bu sebeple x = a, b; ifadesi
+aslında x = a ve b anlamına gelmektedir.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+  int a = 10;
+  int b = 20;
+  int x;
+  x = a, b;
+  std::cout << x;
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte numeric_limits'in unsigned int açılımının
+maks değeri tahmin edilebileceği gibi unsigned int'in maksimum
+değeri anlamına gelmektedir.
+-------------------------------------------------------*/
+#include <iostream>
+#include <limits>
+
+int main() {
+  unsigned int i = std::numeric_limits<unsigned int>::max();
+  std::cout << ++i;
+}
