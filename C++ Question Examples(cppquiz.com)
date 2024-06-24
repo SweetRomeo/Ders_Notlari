@@ -1366,3 +1366,248 @@ int main() {
     const C c;
     std::cout << c.i;
 }
+
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 11 şeklinde olacaktır. Varsayılan
+  argümanda bulunan fonksiyonlar şüphesiz ki çağrılır.
+-------------------------------------------------------*/
+#include <iostream>
+
+using namespace std;
+
+int foo() {
+  cout << 1;
+  return 1;
+}
+
+void bar(int i = foo()) {}
+
+int main() {
+  bar();
+  bar();
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 11 şeklinde olacaktır. Varsayılan
+  argümanda bulunan fonksiyonlar şüphesiz ki çağrılır.
+-------------------------------------------------------*/
+#include <iostream>
+
+using namespace std;
+
+int foo() {
+  cout << 1;
+  return 1;
+}
+
+void bar(int i = foo()) {}
+
+int main() {
+  bar();
+  bar();
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 1426 şeklinde elde
+  edilecektir. Burada B'nin default ctorundan önce Aggregation söz konusu
+  olduğu için önce A'nın default ctoru çağrılacaktır. O sebeple
+  öncelikle 14 ekrana basılacaktır. Sonrasında ise B sınıfının
+  move ctoru çağrılacak burada ctor init. list ile a nesnesi
+  init. edilecektir. Bundan dolayı buradan da 26 ekrana 
+  basılacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+#include <utility>
+
+struct A
+{
+	A() { std::cout << "1"; }
+	A(const A&) { std::cout << "2"; }
+	A(A&&) { std::cout << "3"; }
+};
+
+struct B
+{
+	A a;
+	B() { std::cout << "4"; }
+	B(const B& b) : a(b.a) { std::cout << "5"; }
+	B(B&& b) : a(b.a) { std::cout << "6"; }
+};
+
+int main()
+{
+	B b1;
+	B b2 = std::move(b1);
+}
+/*-------------------------------------------------------
+    Aşağıdaki örnekte continue deyimi bir işe yaramaz
+    bunun nedeni do-while döngü deyiminde henüz kontrol
+    yapılmamasından kaynaklanmaktadır.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+    int i=1;
+    do {
+        std::cout << i;
+        i++;
+        if(i < 3) continue;
+    } while(false);
+    return 0;
+}
+/*-------------------------------------------------------
+  templatelerde tam özelleştirme overload sete dahil edilmez.
+  Yani burada eğer f(T) overloadı seçilmiş olsaydı bu durumda
+  eğer tür çıkarımı int türünden yapılmaya uygunda bu durumda
+  ekrana 2 bastırılacaktı. f<>(0); ifadesi ise doğrudan
+  full specialization kullanımını temsil etmektedir. Bu sebeple
+  burada ekran çıktısı 132 şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+using namespace std;
+
+template<typename T>
+void f(T) {
+    cout << 1;
+}
+
+template<>
+void f(int) {
+    cout << 2;
+}
+
+void f(int) {
+    cout << 3;
+}
+
+int main() {
+    f(0.0);
+    f(0);
+    f<>(0);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir syntax hatası söz konusudur.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct S {
+    template <typename Callable>
+    void operator[](Callable f) {
+        f();
+    }
+};
+
+int main() {
+    auto caller = S{};
+    caller[ []{ std::cout << "C";} ];
+}
+/*-------------------------------------------------------
+ Aşağıdaki örnekte her ne kadar virtual dispatch ile B sınıfının
+ f fonksiyonu çağrılacak gibi görünse de bu durum
+ ancak g fonksiyonunun parametre değişkeninin A türünden
+ bir pointer veya referans olması durumu için geçerlidir.
+ Burada nesne doğrudan A sınıfı türünden olduğu için A sınıfının
+ f fonksiyonu çağrılacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+class A {
+public:
+  virtual void f() { std::cout << "A"; }
+};
+
+class B : public A {
+public:
+  void f() { std::cout << "B"; }
+};
+
+void g(A a) { a.f(); }
+
+int main() {
+  B b;
+  g(b);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 1255 şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+#include <utility>
+
+struct X {
+    X() { std::cout << "1"; }
+    X(X &) { std::cout << "2"; }
+    X(const X &) { std::cout << "3"; }
+    X(X &&) { std::cout << "4"; }
+    ~X() { std::cout << "5"; }
+};
+
+struct Y {
+    mutable X x;
+    Y() = default;
+    Y(const Y &) = default;
+};
+
+int main() {
+    Y y1;
+    Y y2 = std::move(y1);
+}
+/*-------------------------------------------------------
+  Standartlara göre goto ile gidilecek olan yerde programın
+  o anki akışında hayatta olup goto'nun götüreceği akışta henüz
+  o değişken hayatta değilse bu durumda o değişken bellekten
+  atılır. Bu durumun bu nesnesin sadece otomatik ömürlü olduğu
+  durumlar için geçerli olduğu unutulmamalıdır.
+-------------------------------------------------------*/
+#include <iostream>
+
+using namespace std;
+
+class A {
+public:
+  A() { cout << "a"; }
+  ~A() { cout << "A"; }
+};
+
+int i = 1;
+
+int main() {
+label:
+  A a;
+  if (i--)
+    goto label;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte a'nın tür çıkarımı const char* olarak
+  yapılacaktır. Diğer "Hello world!" yazısı ise const char[14]
+  türüdür. decltype ile tür çıkarımı bu durumda const char(&)[14]
+  olarak alınmaktadır.
+-------------------------------------------------------*/
+#include <iostream>
+#include <type_traits>
+
+int main() {
+    auto a = "Hello, World!";
+    std::cout << std::is_same_v<decltype("Hello, World!"), decltype(a)>;
+
+    return 0;
+}
+/*-------------------------------------------------------
+    Aşağıdaki örnekte ekran çıktısı b olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+class A {
+public:
+  virtual void f() { std::cout << "A"; }
+};
+
+class B : public A {
+private:
+  void f() { std::cout << "B"; }
+};
+
+void g(A &a) { a.f(); }
+
+int main() {
+  B b;
+  g(b);
+}
