@@ -66,3 +66,16 @@ int main() {
   unsigned int i = std::numeric_limits<unsigned int>::max();
   std::cout << ++i;
 }
+/*-------------------------------------------------------
+Aşağıdaki örnekteki kod geçerli olmakla birlikte 1 değerini
+üretir. Bunun nedeni null pointer olmamasından kaynaklanmaktadır.
+Herhangi bir void pointer kendine bağlanması geçerli bir ifade olmasının 
+yanı sıra bildirimi de yapıldığından dolayı bir dangling pointer 
+durumu da söz konusu değildir.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+  void * p = &p;
+  std::cout << bool(p);
+}
