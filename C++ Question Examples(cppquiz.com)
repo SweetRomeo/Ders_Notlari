@@ -1247,3 +1247,43 @@ struct A {
 int main() {
     cout << 1;
 }
+
+/*-------------------------------------------------------
+  static olarak bildirilen değişkenler default olarak 0 değerini
+  alacaktır. Bu sebeple aşağıdaki örnekte ekran çıktısı 0 olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+  static int a;
+  std::cout << a;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte const bir nesnenin değiştirilme girişiminden
+  kaynaklı bir tanımsız söz konusudur.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+    const int i = 0;
+    int& r = const_cast<int&>(i);
+    r = 1;
+    std::cout << r;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte int ve const int için farklı fonksiyonlar
+  yazılacağından burada static olan nesne tekrardan hayata gelecektir.
+  Bu sebeple ekran çıktısı 010 şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+template <typename T> void f() {
+  static int stat = 0;
+  std::cout << stat++;
+}
+
+int main() {
+  f<int>();
+  f<int>();
+  f<const int>();
+}
