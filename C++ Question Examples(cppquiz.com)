@@ -2115,3 +2115,66 @@ int main() {
 int main() {
   std::cout << std::is_pointer_v<decltype(nullptr)>;
 }
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir belirsiz davranış söz konusudur.
+-------------------------------------------------------*/
+#include <iostream>
+
+void f(unsigned int) { std::cout << "u"; }
+void f(int)          { std::cout << "i"; }
+void f(char)         { std::cout << "c"; }
+
+int main() {
+    char x = 1;
+    char y = 2;
+    f(x + y);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte 2ull sabiti unsigned long long türünden
+  olduğu için 
+-------------------------------------------------------*/
+#include <iostream>
+
+typedef long long ll;
+
+void foo(unsigned ll) {
+    std::cout << "1";
+}
+
+void foo(unsigned long long) {
+    std::cout << "2";
+}
+
+int main() {
+    foo(2ull);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte tür çıkarımları yazılar için const char*
+  şeklinde yapılacağından dolayı const void* türüne dönüşüm
+  daha kaliteli olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+#include <string>
+
+void f(const std::string &) { std::cout << 1; }
+
+void f(const void *) { std::cout << 2; }
+
+int main() {
+  f("foo");
+  const char *bar = "bar";
+  f(bar);
+}
+/*-------------------------------------------------------
+   Aşağıdaki örnekte bir syntax hatası söz konusudur.
+-------------------------------------------------------*/
+#include <iostream>
+
+void print(char const *str) { std::cout << str; }
+void print(short num) { std::cout << num; }
+
+int main() {
+  print("abc");
+  print(0);
+  print('A');
+}
