@@ -1287,3 +1287,82 @@ int main() {
   f<int>();
   f<const int>();
 }
+/*-------------------------------------------------------
+  variant herhangi bir türü de tutabilir, hiçbir değer de
+  almayabilir. Bu durumda indeks değeri 0 olarak elde edilir.
+-------------------------------------------------------*/
+#include <variant>
+#include <iostream>
+
+using namespace std;
+
+int main() {
+   variant<int, double, char> v;
+   cout << v.index();
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte default ctor ve copy ctor çağrılacağından,
+  ekran çıktısı 12 şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct C {
+  C() { std::cout << "1"; }
+  C(const C& other) { std::cout << "2"; }
+  C& operator=(const C& other) { std::cout << "3"; return *this;}
+};
+
+int main() {
+  C c1;
+  C c2 = c1;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı B olarak elde edilir. Burada
+  tahmin edilebileceği gibi ABC yazısının 0 indisli elemanı
+  elde edilmektedir.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+  std::cout << 1["ABC"];
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı ab şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+#include <sstream>
+
+int main() {
+  std::stringstream ss("a");
+  std::cout << ss.str();
+  ss << "b";
+  std::cout << ss.str();
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir belirsiz davranış söz konusudur.
+  Çünkü int ile long türleri bazı derleyicilerde aynı uzunlukta
+  iken bazı derleyicilerde long türü uzundur.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main()
+{
+    std::cout << (sizeof(long) > sizeof(int));
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte default ctor default init edildiğinden
+  c.i nesnesi herhangi bir değer almaz bu sebeple const C c;
+  ifadesi bir sentaks hatasına neden olur. Bildiğimiz gibi
+  C++ dilinde const nesneler default init. edilemezler.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct C {
+    C() = default;
+    int i;
+};
+
+int main() {
+    const C c;
+    std::cout << c.i;
+}
