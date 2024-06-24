@@ -1611,3 +1611,459 @@ int main() {
   B b;
   g(b);
 }
+/*-------------------------------------------------------
+ Aşağıdaki örnekte ekran çıktısı B1 şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct A {
+    virtual void foo (int a = 1) {
+        std::cout << "A" << a;
+    }
+};
+
+struct B : A {
+    virtual void foo (int a = 2) {
+        std::cout << "B" << a;
+    }
+};
+
+int main () {
+    A *b = new B;
+    b->foo();
+}
+/*-------------------------------------------------------
+ Aşağıdaki örnekte ekran çıktısı 34 şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+int i;
+
+void f(int x) {
+    std::cout << x << i;
+}
+
+int main() {
+    i = 3;
+    f(i++);
+}
+/*-------------------------------------------------------
+ Aşağıdaki örnekte ekran çıktısı pp0 olarak elde edilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+#include <typeinfo>
+
+void takes_pointer(int* pointer) {
+  if (typeid(pointer) == typeid(int[])) std::cout << 'a';
+  if (typeid(pointer) == typeid(int*)) std::cout << 'p';
+}
+
+void takes_array(int array[]) {
+  if (typeid(array) == typeid(int[])) std::cout << 'a';
+  if (typeid(array) == typeid(int*)) std::cout << 'p';
+}
+
+int main() {
+  int* pointer = nullptr;
+  int array[1];
+
+  takes_pointer(array);
+  takes_array(pointer);
+
+  std::cout << (typeid(int*) == typeid(int[]));
+}
+/*-------------------------------------------------------
+ Aşağıdaki örnekte herhangi sentaks hatası söz konusu değildir
+ öte yandan ekran çıktısı G olarak elde edilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct GeneralException {
+  virtual void print() { std::cout << "G"; }
+};
+
+struct SpecialException : public GeneralException {
+  void print() override { std::cout << "S"; }
+};
+
+void f() { throw SpecialException(); }
+
+int main() {
+  try {
+    f();
+  }
+  catch (GeneralException e) {
+    e.print();
+  }
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte herhangi şekilde bir sentaks hatası yoktur.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct S
+{
+  S() = delete;
+  int x;
+};
+
+int main()
+{
+  auto s = S{};
+  std::cout << s.x;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 0 olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+#include <type_traits>
+
+int main() {
+    if(std::is_signed<char>::value){
+        std::cout << std::is_same<char, signed char>::value;
+    }else{
+        std::cout << std::is_same<char, unsigned char>::value;
+    }
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 101 olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+char a[2] = "0";
+
+struct a_string {
+   a_string() { *a='1'; }
+   ~a_string() { *a='0'; }
+   const char* c_str() const { return a; }
+};
+
+void print(const char* s) { std::cout << s; }
+a_string make_string() { return a_string{}; }
+
+int main() {
+   a_string s1 = make_string();
+   print(s1.c_str());
+
+   const char* s2 = make_string().c_str();
+   print(s2);
+
+   print(make_string().c_str());
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı TS şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+using namespace std;
+
+template<typename T>
+void adl(T)
+{
+  cout << "T";
+}
+
+struct S
+{
+};
+
+template<typename T>
+void call_adl(T t)
+{
+  adl(S());
+  adl(t);
+}
+
+void adl(S)
+{
+  cout << "S";
+}
+
+int main ()
+{
+  call_adl(S());
+}
+
+/*-------------------------------------------------------
+ Aşağıdaki örnekte sadece init-listin <C> açılımı ilk kullanıldığında
+ copy ctor çağrılacaktır. Bunun haricinde copy ctor. çağrısı söz
+ konusu olmayacaktır. Bu yüzden ekran çıktısı 1 olarak elde edilir.
+-------------------------------------------------------*/
+#include <initializer_list>
+#include <iostream>
+
+class C {
+public:
+    C() = default;
+    C(const C&) { std::cout << 1; }
+};
+
+void f(std::initializer_list<C> i) {}
+
+int main() {
+    C c;
+    std::initializer_list<C> i{c};
+    f(i);
+    f(i);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı YX şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+struct X {
+  virtual void f() const { std::cout << "X"; }
+};
+
+struct Y : public X {
+  void f() const { std::cout << "Y"; }
+};
+
+void print(const X &x) { x.f(); }
+
+int main() {
+  X arr[1];
+  Y y1;
+  arr[0] = y1;
+  print(y1);
+  print(arr[0]);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 222 şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct C {
+    int& i;
+};
+
+int main() {
+    int x = 1;
+    int y = 2;
+
+    C c{x};
+    c.i = y;
+
+    std::cout << x << y << c.i;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı if olarak elde edilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+
+void f(float &&) { std::cout << "f"; }
+void f(int &&) { std::cout << "i"; }
+
+template <typename... T>
+void g(T &&... v)
+{
+    (f(v), ...);
+}
+
+int main()
+{
+    g(1.0f, 2);
+}
+/*-------------------------------------------------------
+  global nesnelerin isimlendirilmesinde başta underscore(_)
+  karakterinin kullanımı tanımsız davranışa sebep olur.
+-------------------------------------------------------*/
+#include <iostream>
+
+int _global = 1;
+
+int main() {
+  std::cout << _global;
+}
+/*-------------------------------------------------------
+  Bir sayının sıfıra bölünmesi durumunda tanımsız davranış oluşur.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+  int i = 42;
+  int j = 1;
+  std::cout << i / --j;
+}
+/*-------------------------------------------------------
+   Aşağıdaki örnekte hem  default ctor hem int parametreli ctor,
+   hem de copy assignment çağrılacağından dolayı 1,2 ve 3
+   nolu satırlardaki değişkenlerin hepsinin değeri değişicektir.
+   Bu durumda ekran çıktısı 111 şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+#include <map>
+using namespace std;
+
+bool default_constructed = false; //1
+bool constructed = false; //2
+bool assigned = false; //3
+
+class C {
+public:
+    C() { default_constructed = true; }
+    C(int) { constructed = true; }
+    C& operator=(const C&) { assigned = true; return *this;}
+};
+
+int main() {
+    map<int, C> m;
+    m[7] = C(1);
+
+    cout << default_constructed << constructed << assigned;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir tanımsız davranış söz konusudur.
+  Bunun nedeni get bir future nesnesinin bir defa elde
+  edilebileceğidir.
+-------------------------------------------------------*/
+#include <future>
+#include <iostream>
+
+int main()
+{
+    std::promise<int> p;
+    std::future<int> f = p.get_future();
+    p.set_value(1);
+    std::cout << f.get();
+    std::cout << f.get();
+}
+/*-------------------------------------------------------
+  Most vexing parse kuralı burada devreye gireceğinden
+  Y y(X()); ifadesi bir fonksiyon bildirimi olarak yorumlanacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct X {
+  X() { std::cout << "X"; }
+};
+
+struct Y {
+  Y(const X &x) { std::cout << "Y"; }
+  void f() { std::cout << "f"; }
+};
+
+int main() {
+  Y y(X());
+  y.f();
+}
+
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir tanımsız davranış söz konusudur.
+-------------------------------------------------------*/
+#include<iostream>
+
+int main()
+{
+    unsigned short x=0xFFFF;
+    unsigned short y=0xFFFF;
+    auto z=x*y;
+    std::cout << (z > 0);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 1000 şeklinde elde edilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+#include <type_traits>
+
+template <typename T>
+void foo(T& x)
+{
+    std::cout << std::is_same_v<const int, T>;
+}
+
+template <typename T>
+void bar(const T& x)
+{
+    std::cout << std::is_same_v<const int, T>;
+}
+
+int main()
+{
+    const int i{};
+    int j{};
+
+    foo(i);
+    foo(j);
+    bar(i);
+    bar(j);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 112 şeklinde elde edilecektir.
+  Bunun nedeni tür çıkarımının int olarak yapılması durumunda
+  derleyici tarafından başka bir fonksiyon yazılırken, tür
+  çıkarımının double türünden yapılması durumunda başka
+  bir fonksiyon yazılacaktır. Bu sebeple sıfırdan başka bir
+  static değişken hayata geliyormuş gibi düşünülebilir.
+  Bunlardan yola çıkılarak ekran çıktısı son durumda 112 şeklinde
+  olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+using namespace std;
+
+template <class T> void f(T) {
+  static int i = 0;
+  cout << ++i;
+}
+
+int main() {
+  f(1);
+  f(1.0);
+  f(1);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 1 olarak elde edilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+
+template <class T> void f(T &i) { std::cout << 1; }
+
+template <> void f(const int &i) { std::cout << 2; }
+
+int main() {
+  int i = 42;
+  f(i);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 1 olarak elde edilir.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+   int n = sizeof(0)["abcdefghij"];
+   std::cout << n;
+}
+/*-------------------------------------------------------
+  Türemiş sınıf(Derived class) türünden bir nesne oluşturulurken öncelikle
+  Taban sınıfın ctoru çağrılır. Bu durum aggregation içinse
+  yine aynıdır. Bu durumda ekran çıktısı abBA şeklinde elde edilir.
+-------------------------------------------------------*/
+#include <iostream>
+
+class A {
+public:
+  A() { std::cout << 'a'; }
+  ~A() { std::cout << 'A'; }
+};
+
+class B : public A {
+public:
+  B() { std::cout << 'b'; }
+  ~B() { std::cout << 'B'; }
+};
+
+int main() { B b;
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir belirsiz davranış söz konusudur.
+-------------------------------------------------------*/
+#include <iostream>
+
+void print(int x, int y)
+{
+    std::cout << x << y;
+}
+
+int main() {
+    int i = 0;
+    print(++i, ++i);
+    return 0;
+}
