@@ -101,3 +101,277 @@ int main() {
   int c = f(a, a);
   std::cout << a << b << c;
 }
+/*-------------------------------------------------------
+Eğer char türünden '3' ten '2' çıkarılırsa son durumda
+elde edilen değer int türünden 1 olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+    int i = '3' - '2';
+    std::cout << i;
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte f fonksiyonunun 3 tane overloadı bulunmaktadır.
+1.0 sabitinin türü double olduğundan double parametreli func
+exact match olmaktadır. Sonuç olarak ekran çıktısı d olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+void f(int) { std::cout << "i"; }
+void f(double) { std::cout << "d"; }
+void f(float) { std::cout << "f"; }
+
+int main() {
+  f(1.0);
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte bir belirsiz davrnış söz konusudur.
+-------------------------------------------------------*/
+#include <limits>
+#include <iostream>
+
+int main() {
+    std::cout << std::numeric_limits<unsigned char>::digits;
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte ekran çıktısı main olacaktır.
+sizeof operatörü kullanılırken bir ctor çağrısı gerçekleştirilmez.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct A {
+    A() { std::cout << "A"; }
+    ~A() { std::cout << "a"; }
+};
+
+int main() {
+    std::cout << "main";
+    return sizeof new A;
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte argv[argc] ifadesi 0 olarak elde edilir.
+Bu sebeple ekran çıktısı 1 olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main(int argc, char* argv[]) {
+    std::cout << (argv[argc] == nullptr);
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte c.x = 3; deyimi bir sentaks hatasına neden
+olur. Burada bilinmesi gereken en önemli bilgi sınıflarda
+bir default kalıtım söz konusu olduğunda sınıflar için
+default kalıtım tipi private kalıtımıdır. structlarda(yapılar)
+ise default kalıtımın public kalıtımı olmasıdır.
+-------------------------------------------------------*/
+#include <iostream>
+
+class A {};
+
+class B {
+public:
+    int x = 0;
+};
+
+class C : public A, B {};
+
+struct D : private A, B {};
+
+
+int main()
+{
+    C c;
+    c.x = 3;
+
+    D d;
+    d.x = 3;
+
+    std::cout << c.x << d.x;
+}
+/*-------------------------------------------------------
+Anahtar Notlar:C++ 11 ile dile eklenen override anahtar
+sözcüğü eskiden yazılan kodlara istinaden override anahtar
+sözcüğü değişken isimler dahil olmak üzere pek çok yerde isim
+olarak kullanılabilir. Bu yüzden aşağıdaki kodda herhangi
+şekilde bir sentaks hatası yoktur.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct override {};
+
+struct Base {
+    virtual override f() = 0;
+};
+
+struct Derived : Base {
+    virtual auto f() -> override override{
+        std::cout << "1";
+        return override();
+    }
+};
+
+int main() {
+    Derived().f();
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte ekran çıktısı 1133 şeklinde olacaktır.
+Bunun nedeni uniform init yapıldığında init_list
+parametrelinin seçilebilirlikte daha üsütün olmasından
+kaynaklanmaktadır. Bu durumda ilk iki nesne için
+default ctor çağrılırken, diğerleri için ise init_list parametreli
+çağrılacaktır.
+-------------------------------------------------------*/
+#include <initializer_list>
+#include <iostream>
+
+struct A {
+  A() { std::cout << "1"; }
+
+  A(int) { std::cout << "2"; }
+
+  A(std::initializer_list<int>) { std::cout << "3"; }
+};
+
+int main(int argc, char *argv[]) {
+  A a1;
+  A a2{};
+  A a3{ 1 };
+  A a4{ 1, 2 };
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte ekran çıktısı 1 olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+namespace x {
+  class C {};
+  void f(const C& i) {
+    std::cout << "1";
+  }
+}
+
+namespace y {
+  void f(const x::C& i) {
+    std::cout << "2";
+  }
+}
+
+int main() {
+  f(x::C());
+}
+/*-------------------------------------------------------
+Özel üye fonksiyonlarla ilgili güzel bir örnek
+-------------------------------------------------------*/
+#include <iostream>
+
+struct X {
+  X() { std::cout << "a"; }
+  X(const X &x) { std::cout << "b"; }
+  const X &operator=(const X &x) {
+    std::cout << "c";
+    return *this;
+  }
+};
+
+int main() {
+  X x;
+  X y(x);
+  X z = y;
+  z = x;
+}
+/*-------------------------------------------------------
+Global değişkenler default olarak 0 değerini alır.
+-------------------------------------------------------*/
+#include <iostream>
+
+int a;
+
+int main () {
+    std::cout << a;
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte boşluk geçerli bir ifade olduğundan dolayı
+değilinin değili 1'e eşit olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+    std::cout << +!!"";
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte n1 nesnesi 3 olurken n2 nesnesi 2 olarak
+elde edilecektir. Bunun nedeni n1 için yapılan sum çağrısında
+tür çıkarımı double olarak yapılıp toplanan sayıların noktadan
+sonraki kısımları atılmaz iken n2 için yapılan çağrıda
+tür çıkarımı int olarak yapılır bu durumda, toplanacak
+sayıların noktadan sonraki kısımları
+-------------------------------------------------------*/
+#include <iostream>
+
+template<typename T>
+T sum(T arg) {
+    return arg;
+}
+
+template<typename T, typename ...Args>
+T sum(T arg, Args... args) {
+    return arg + sum<T>(args...);
+}
+
+int main() {
+    auto n1 = sum(0.5, 1, 0.5, 1);
+    auto n2 = sum(1, 0.5, 1, 0.5);
+    std::cout << n1 << n2;
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte hem aggregation hem de inheritance yapılmıştır.
+Burada ilk önce taban sınıf hayata gelecektir. Sonrasında
+o sınıfın elemanları hayata gelecektir. Son olarak da Söz konusu
+sınıfın ctoru çağrılacaktır. Temel bir kural olarak benimsenebilecek
+bir kural ise ilk ctoru çağrılan sınıfın ctorunun son çağrılacağıdır.
+Bu durumda ilk türemiş sınıfın dtoru çağrılır sonrasında üye
+elemanın sınıfı, son olarak da taban sınıfın ctoru çağrılacaktır.
+Ekran çıktısı:
+Base ctor -> Member ctor -> Derived ctor -> Derived dtor
+-> Member ctor -> Base dtor
+-------------------------------------------------------*/
+#include <iostream>
+
+class Base {
+public:
+    Base() {
+        std::cout << "Base ctor\n";
+    }
+    ~Base() {
+        std::cout << "Base dtor\n";
+    }
+};
+
+class Member {
+public:
+    Member() {
+        std::cout << "Member ctor\n";
+    }
+    ~Member() {
+        std::cout << "Member dtor\n";
+    }
+};
+
+class Derived : public Base {
+public:
+    Derived() {
+        std::cout << "Derived ctor\n";
+    }
+    ~Derived() {
+        std::cout << "Derived dtor\n";
+    }
+private:
+    Member mx;
+};
+
+int main()
+{
+    Derived d;
+    return 0;
+}
