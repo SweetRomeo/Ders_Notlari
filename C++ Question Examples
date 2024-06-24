@@ -79,3 +79,25 @@ int main() {
   void * p = &p;
   std::cout << bool(p);
 }
+/*-------------------------------------------------------
+Aşağıdaki örnekte f fonksiyonuna a,a argümanlarının gönderildiğine
+dikkat edilmelidir. Bu sebeple fonksiyon içerisinde değiştirilen
+b değeri aslında maindeki a değeridir. fonksiyon çağrısı
+sonrasında a değeri 4 olurken b'nin değeri değişmez. Fonksiyonun
+geri dönüş değeri ise 4 + 4'ten 8 olarak elde edilir. Son
+durumda ekran çıktısı 428 şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+int f(int &a, int &b) {
+  a = 3;
+  b = 4;
+  return a + b;
+}
+
+int main() {
+  int a = 1;
+  int b = 2;
+  int c = f(a, a);
+  std::cout << a << b << c;
+}
