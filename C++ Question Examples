@@ -886,3 +886,113 @@ int main(){
   A::x = 1;
   std::cout << B::x;
 }
+/*-------------------------------------------------------
+    Aşağıdaki örnekte b referansı bir geçici nesneye bağlanmaktadır.
+    Bu yüzden a nesnesinin arttırılması b nesnesini hiçbir şekilde
+    etkilemez. Sonuç olarak ekran çıktısı 00 olarak elde edilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int a = '0';
+    char const &b = a;
+    cout << b;
+    a++;
+    cout << b;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte operator auto ifadesi otomatik tür dönüşümüne
+  sebep olur. Bu yüzden a'nın değerinin 1 olacağını söyleyebiliriz
+-------------------------------------------------------*/
+#include <iostream>
+
+struct Foo {
+  operator auto() {
+    std::cout << "A";
+    return 1;
+  }
+};
+
+int main() {
+  int a = Foo();
+  std::cout << a;
+}
+/*-------------------------------------------------------
+  C++ ta çift tırnak içerisindeki ifadeler, const char[]
+  türündendir. Bu sebeple "" ifadesi de const char[] türündendir.
+  string literallerinin sonunda null karakter(\0) olduğunu
+  C dilinden biliyorduk. Demekki bu yazı aslında boş yazı değildir.
+  Sadece null karakterden oluşan bir yazıdır. Bu durumda
+  sizeof tarafından elde edilecek değer sizeof(char) ifadesinin
+  sonucuna eşit olacaktır. Bu durumda elde edilen sonuç 1 byte olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+    std::cout << sizeof("");
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir tanımsız davranış söz konusudur.
+-------------------------------------------------------*/
+#include <iostream>
+
+volatile int a;
+
+int main() {
+  std::cout << (a + a);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 210 şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+class show_id
+{
+public:
+    ~show_id() { std::cout << id; }
+    int id;
+};
+
+int main()
+{
+    delete[] new show_id[3]{ {0}, {1}, {2} };
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bar için tür çıkarımı referanslık düşeceğinden
+  dolayı
+-------------------------------------------------------*/
+#include <iostream>
+
+class A {
+  int foo = 0;
+
+public:
+  int& getFoo() { return foo; }
+  void printFoo() { std::cout << foo; }
+};
+
+int main() {
+  A a;
+
+  auto bar = a.getFoo();
+  ++bar;
+
+  a.printFoo();
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte 2.5 double türünden bir sabit olduğu 
+  için double parametreli f çağrısı gerçekleştirilecektir.
+  Diğer taraftan 2.5f sabiti ise float türünden olduğundan 
+  dolayı float parametreli f çağrısı gerçekleştirilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+
+void f(float) { std::cout << 1; }
+void f(double) { std::cout << 2; }
+
+int main() {
+  f(2.5);
+  f(2.5f);
+}
