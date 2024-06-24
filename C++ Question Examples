@@ -839,3 +839,50 @@ struct X {
 int main() {
   X<> x;
 }
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 11 şeklinde olacaktır.
+-------------------------------------------------------*/
+#include<iostream>
+
+int foo()
+{
+  return 10;
+}
+
+struct foobar
+{
+  static int x;
+  static int foo()
+  {
+    return 11;
+  }
+};
+
+int foobar::x = foo();
+
+int main()
+{
+    std::cout << foobar::x;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte extern "C" bildirimi dolaysıyla
+  A::x ve B::x aynı anlamı taşımaktadır. Bundan dolayı A::x'te
+  yapılan herhangi bir değişiklik doğrudan B::x'i de etkileyecektir.
+-------------------------------------------------------*/
+#include<iostream>
+
+namespace A{
+  extern "C" int x;
+};
+
+namespace B{
+  extern "C" int x;
+};
+
+int A::x = 0;
+
+int main(){
+  std::cout << B::x;
+  A::x = 1;
+  std::cout << B::x;
+}
