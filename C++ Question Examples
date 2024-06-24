@@ -22,3 +22,20 @@ int main()
     L(true).foo();
     L(false).foo();
 }
+/*-------------------------------------------------------
+Aşağıdaki örnekteki kod geçerlidir. Yapılar illa eleman
+sayısı kadar değişkenle init. edilecek diye bir zorunluluk
+yoktur.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct S {
+    int one;
+    int two;
+    int three;
+};
+
+int main() {
+    S s{1,2};
+    std::cout << s.one;
+}
