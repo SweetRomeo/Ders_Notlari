@@ -1092,3 +1092,158 @@ int main() {
   B b = a.createB();
 }
 
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 1 olarak elde edilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+
+using Func = int();
+
+struct S {
+    Func f;
+};
+
+int S::f() { return 1; }
+
+int main() {
+    S s;
+    std::cout << s.f();
+}
+/*-------------------------------------------------------
+ Virgül operatörünün ürettiği değer bu operatörün sağ operandı
+ olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+  int a = 10;
+  int b = 20;
+  int x;
+  x = (a, b);
+  std::cout << x;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 1 olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+void f()
+{
+    std::cout << "1";
+}
+
+template<typename T>
+struct B
+{
+    void f()
+    {
+        std::cout << "2";
+    }
+};
+
+template<typename T>
+struct D : B<T>
+{
+    void g()
+    {
+        f();
+    }
+};
+
+int main()
+{
+    D<int> d;
+    d.g();
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı fhh şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+bool f() { std::cout << 'f'; return false; }
+char g() { std::cout << 'g'; return 'g'; }
+char h() { std::cout << 'h'; return 'h'; }
+
+int main() {
+    char result = f() ? g() : h();
+    std::cout << result;
+}
+/*-------------------------------------------------------
+  future nesnesi promise nesnesinden yalnız bir tanesine bağlanabilir.
+  Bu yüzden aşağıdaki örnekte bir sentaks hatası söz konusudur.
+-------------------------------------------------------*/
+#include <future>
+#include <iostream>
+
+int main()
+{
+    try {
+        std::promise<int> p;
+        std::future<int> f1 = p.get_future();
+        std::future<int> f2 = p.get_future();
+        p.set_value(1);
+        std::cout << f1.get() << f2.get();
+    } catch(const std::exception& e)
+    {
+        std::cout << 2;
+    }
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir sentaks hatası söz konusudur.
+-------------------------------------------------------*/
+
+#include <iostream>
+
+namespace A {
+  extern "C" { int x; }
+};
+
+namespace B {
+  extern "C" { int x; }
+};
+
+int A::x = 0;
+
+int main() {
+  std::cout << B::x;
+  A::x = 1;
+  std::cout << B::x;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte herhangi şekilde bir sentaks hatası yoktur.
+  Ekrana 5 basılır.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+    int n = 3;
+    int i = 0;
+
+    switch (n % 2) {
+    case 0:
+    do {
+    ++i;
+    case 1: ++i;
+    } while (--n > 0);
+    }
+
+    std::cout << i;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir sentaks hatası yoktur. Bunun nedeni
+  static_assert fonksiyonunun bir class template içerisinde
+  bulunmaısından kaynaklanmaktadır. Burada eğer A sınıfı türünden
+  bir nesne oluşturulsaydı bu durumda sentaks hatasından bahsedilebilirdi.
+-------------------------------------------------------*/
+#include <iostream>
+
+using namespace std;
+
+template <typename T>
+struct A {
+    static_assert(false);
+};
+
+int main() {
+    cout << 1;
+}
