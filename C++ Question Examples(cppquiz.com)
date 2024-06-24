@@ -961,7 +961,7 @@ int main()
 }
 /*-------------------------------------------------------
   Aşağıdaki örnekte bar için tür çıkarımı referanslık düşeceğinden
-  dolayı
+  dolayı int olarak yapılacaktır. 
 -------------------------------------------------------*/
 #include <iostream>
 
@@ -996,3 +996,4 @@ int main() {
   f(2.5);
   f(2.5f);
 }
+
