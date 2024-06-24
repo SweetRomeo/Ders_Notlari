@@ -489,3 +489,353 @@ int main() {
   r.u->foo();
   r.p->foo();
 }
+/*-------------------------------------------------------
+Anahtar Notlar: Bit field olarak bildirilmiş struct elemanları
+birbiriyle karşılaştırılması doğrudan sentaks hatasına neden olur.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct X {
+    int var1 : 3;
+    int var2;
+};
+
+int main() {
+    X x;
+    std::cout << (&x.var1 < &x.var2);
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte bir sentaks hatası söz konusudur.
+a+++++b ifadesi a++ + ++b şekiinde ele alınmaz.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+ int a = 5,b = 2;
+ std::cout << a+++++b;
+}
+/*-------------------------------------------------------
+Eğer bir anahtar belirtimemiş ise bu durumda anahtar sıfır olarak alınır.
+-------------------------------------------------------*/
+#include <iostream>
+#include <map>
+using namespace std;
+
+int main() {
+    map<int, int> m;
+    cout << m[42];
+}
+/*-------------------------------------------------------
+Diamond sorunu multi level inheritance durumunda aynı taban
+sınıftan iki tane olamsı durumunu ifade etmektedir. Bu sorunun
+çözümü virtual inheritance kullanılmaktır. Bu durumda
+söz konusu sınıftan iki adet taban sınıf bulunmayacaktır.
+Bundan yola çıkarak D sınıfı türünden bir nesne için
+sadece 1 defa A sınıfının ctoru çağrılacaktır. Elbette
+bir sınıfın ctoru çağrılmadan o sınıfın taban sınıfının(Base class)
+ctorunun çağrılacağı da unutulmamalıdır. Bu durumda d1
+nesnesi için ekran çıktısı ABCD şeklinde olacaktır.
+Diğer taraftan d2 içinse durum biraz daha farklıdır. Burada
+bir kopyalama söz konusu olacağından Burada ABCd şeklinde
+bir ekran çıktısı alınacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+using namespace std;
+
+class A
+{
+public:
+    A() { cout << "A"; }
+    A(const A &) { cout << "a"; }
+};
+
+class B: public virtual A
+{
+public:
+    B() { cout << "B"; }
+    B(const B &) { cout<< "b"; }
+};
+
+class C: public virtual A
+{
+public:
+    C() { cout<< "C"; }
+    C(const C &) { cout << "c"; }
+};
+
+class D:B,C
+{
+public:
+    D() { cout<< "D"; }
+    D(const D &) { cout << "d"; }
+};
+
+int main()
+{
+    D d1;
+    D d2(d1);
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte sadece diziler ve dizi dizileri için
+1 değeri üretilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+#include <type_traits>
+using namespace std;
+
+int main() {
+    cout << is_const_v<const int *>
+         << is_const_v<const int [1]>
+         << is_const_v<const int **>
+         << is_const_v<const int (*)[1]>
+         << is_const_v<const int *[1]>
+         << is_const_v<const int [1][1]>;
+}
+/*-------------------------------------------------------
+aşağıdaki örnekte ekran çıktısı 11422 olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct X {
+    X() { std::cout << "1"; }
+    X(const X &) { std::cout << "3"; }
+    ~X() { std::cout << "2"; }
+
+    void f() { std::cout << "4"; }
+
+} object;
+
+int main() {
+    X(object);
+    object.f();
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte bir copy elision söz konusu olacağından
+copy constructor çağrılmaz. Bu sebeple ekran çıktısı 13
+şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct E
+{
+  E() { std::cout << "1"; }
+  E(const E&) { std::cout << "2"; }
+  ~E() { std::cout << "3"; }
+};
+
+E f()
+{
+  return E();
+}
+
+int main()
+{
+  f();
+}
+/*-------------------------------------------------------
+ Aşağıdaki örnekte ekran çıktısı 00 olarak elde edilecektir.
+-------------------------------------------------------*/
+#include <type_traits>
+#include <iostream>
+
+using namespace std;
+
+struct X {
+    int f() const&&{
+        return 0;
+    }
+};
+
+int main() {
+    auto ptr = &X::f;
+    cout << is_same_v<decltype(ptr), int()>
+         << is_same_v<decltype(ptr), int(X::*)()>;
+}
+/*-------------------------------------------------------
+ top level const(nesnenin kendisinin const olması) türü
+ değişmesine neden olmaz bu sebeple const int ile int
+ aynı tür olarak alınacaktır. Ancak int* ve const int*
+ türleri birbirinden farklıdır. Burada low level constluk söz
+ konusu olacağından bu türler birbirinden farklı türlerdir.
+ Açıklamaya göre son durumda ekran çıktısı 10 şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+#include <type_traits>
+
+int main() {
+    std::cout << std::is_same_v<
+        void(int),
+        void(const int)>;
+
+    std::cout << std::is_same_v<
+        void(int*),
+        void(const int*)>;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bitsel sola kaydırma operatörün overload
+  edilmiştir. Burada ek olarak virtual dispatch mekanizması da
+  devreye girecektir. Nesnenin türü b olduğu için runtime
+  polimofzim devreye girecek B yapısına ait olan put fonksiyonu
+  çağrılacaktır. Ekran çıktısı B şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct A {
+  virtual std::ostream &put(std::ostream &o) const {
+    return o << 'A';
+  }
+};
+
+struct B : A {
+  virtual std::ostream &put(std::ostream &o) const {
+    return o << 'B';
+  }
+};
+
+std::ostream &operator<<(std::ostream &o, const A &a) {
+  return a.put(o);
+}
+
+int main() {
+  B b;
+  std::cout << b;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı D0C0 şwklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+#include <functional>
+
+class Q{
+    int v=0;
+    public:
+        Q(Q&&){
+            std::cout << "M";
+        }
+        Q(const Q&){
+            std::cout << "C";
+        }
+        Q(){
+            std::cout << "D";
+        }
+        void change(){
+            ++v;
+        }
+        void func(){
+            std::cout << v;
+        }
+};
+void takeQfunc(std::function<void(Q)> qfunc){
+    Q q;
+    q.func();
+    qfunc(q);
+    q.func();
+}
+int main(){
+    takeQfunc([](Q&& q){
+        q.change();
+    });
+    return 0;
+}
+/*-------------------------------------------------------
+    decltype((a)) ifadesi için tür çıkarımı int& olarak yapılacaktır.
+    Bu sebeple ekran çıktısı 11 olarak elde edilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+  int a = 0;
+  decltype((a)) b = a;
+  b++;
+  std::cout << a << b;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir ambiguity söz konusudur.
+-------------------------------------------------------*/
+#include <iostream>
+
+void f(int) { std::cout << 1; }
+void f(unsigned) { std::cout << 2; }
+
+int main() {
+  f(-2.5);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 1R2L şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+#include <type_traits>
+
+void g(int&) { std::cout << 'L'; }
+void g(int&&) { std::cout << 'R'; }
+
+template<typename T>
+void f(T&& t) {
+    if (std::is_same_v<T, int>) { std::cout << 1; }
+    if (std::is_same_v<T, int&>) { std::cout << 2; }
+    if (std::is_same_v<T, int&&>) { std::cout << 3; }
+    g(std::forward<T>(t));
+}
+
+int main() {
+    f(42);
+    int i = 0;
+    f(i);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte önce 2 defa default ctor sonrasında
+
+-------------------------------------------------------*/
+#include <iostream>
+
+struct A {
+  A() { std::cout << "A"; }
+  A(const A &a) { std::cout << "B"; }
+  virtual void f() { std::cout << "C"; }
+};
+
+int main() {
+  A a[2];
+  for (auto x : a) {
+    x.f();
+  }
+}
+/*-------------------------------------------------------
+ Aşağıdaki örnekte ekran çıktısı 21 şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct A {
+  A(int i) : m_i(i) {}
+  operator bool() const { return m_i > 0; }
+  int m_i;
+};
+
+int main() {
+  A a1(1), a2(2);
+  std::cout << a1 + a2 << (a1 == a2);
+}
+/*-------------------------------------------------------
+ Burada ekran çıktısı 01 şeklinde elde edilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+  int a = 0;
+  decltype(a) b = a;
+  b++;
+  std::cout << a << b;
+}
+
+/*-------------------------------------------------------
+Aşağıdaki örnekte ub söz konusudur.
+-------------------------------------------------------*/
+template <typename ...Ts>
+struct X {
+  X(Ts ...args) : Var(0, args...) {}
+  int Var;
+};
+
+int main() {
+  X<> x;
+}
