@@ -375,3 +375,117 @@ int main()
     Derived d;
     return 0;
 }
+/*-------------------------------------------------------
+Aşağıdaki örnekte f overload edilmemiştir. Bu sebeple
+double parametreli f çağrısı gerçekleştirilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct Base {
+  void f(int) { std::cout << "i"; }
+};
+
+struct Derived : Base {
+  void f(double) { std::cout << "d"; }
+};
+
+int main() {
+  Derived d;
+  int i = 0;
+  d.f(i);
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte virtual dispatch mekanizması devreye girecektir.
+bu sebeple türemiş sınıfa ait olan func çağrısı yapılacaktır.
+Burada ek bir bilgi verilmesi gerekirse taban sınıfın
+dtrounun virtual yapılamsı güvenlik olarak son derece önemlidir.
+
+-------------------------------------------------------*/
+#include <iostream>
+
+class Base {
+public:
+    Base() {
+        std::cout << "Base ctor\n";
+    }
+
+    virtual void func() {
+        std::cout << "Base func()\n";
+    }
+
+    ~Base() {
+        std::cout << "Base dtor\n";
+    }
+};
+
+class Derived : public Base {
+public:
+    Derived() {
+        std::cout << "Derived ctor\n";
+    }
+
+    void func() final {
+        std::cout << "Derived func()\n";
+    }
+
+    ~Derived() {
+        std::cout << "Derived dtor\n";
+    }
+};
+
+int main()
+{
+    Base* bptr = new Derived();
+    bptr->func();
+    delete bptr;
+    return 0;
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte ekran çıktısı 1 olarak elde edilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+
+void f(char*&&) { std::cout << 1; }
+void f(char*&) { std::cout << 2; }
+
+int main() {
+   char c = 'a';
+   f(&c);
+}
+/*-------------------------------------------------------
+Aşağıdaki örnekte ekran çıktısı AAABAA şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+#include <memory>
+#include <vector>
+
+class C {
+public:
+  void foo()       { std::cout << "A"; }
+  void foo() const { std::cout << "B"; }
+};
+
+struct S {
+  std::vector<C> v;
+  std::unique_ptr<C> u;
+  C *const p;
+
+  S()
+    : v(1)
+    , u(new C())
+    , p(u.get())
+  {}
+};
+
+int main() {
+  S s;
+  const S &r = s;
+
+  s.v[0].foo();
+  s.u->foo();
+  s.p->foo();
+
+  r.v[0].foo();
+  r.u->foo();
+  r.p->foo();
+}
