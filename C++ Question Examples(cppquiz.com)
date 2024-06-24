@@ -996,4 +996,99 @@ int main() {
   f(2.5);
   f(2.5f);
 }
+/*-------------------------------------------------------
+ Aşağıdaki örnekte ekran çıktısı aaaaa şeklinde olacaktır.
+ Bunun nedeni 5 elemanlı bir vector containerı oluşturulacağından
+ dolayı Foo sınıfının ctoru 5 defa çağrılacaktır. Sonuç olarak 
+ ekran çıktısı aaaaa olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+#include <vector>
+
+struct Foo
+{
+    Foo() { std::cout<<"a"; }
+    Foo(const Foo&) { std::cout<<"b"; }
+};
+
+int main()
+{
+    std::vector<Foo> bar(5);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir belirsiz davranış söz konusudur.
+  Bunun nedeni f1 ve f2 fonksiyonları çağrılırken hangisinin
+  önce çağrılacağının bilinememesinden kaynaklanmaktadır.
+-------------------------------------------------------*/
+#include <vector>
+#include <iostream>
+
+std::vector<int> v;
+
+int f1() {
+  v.push_back(1);
+  return 0;
+}
+
+int f2() {
+  v.push_back(2);
+  return 0;
+}
+
+void g(int, int) {}
+
+void h() {
+ g(f1(), f2());
+}
+
+int main() {
+  h();
+  h();
+  std::cout << (v[0] == v[2]);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 3 olarak elde edilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+
+auto sum(int i)
+{
+  if (i == 1)
+    return i;
+  else
+    return sum(i-1)+i;
+}
+
+int main()
+{
+    std::cout << sum(2);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir syntax hatası söz konusudur. friend olarak
+  bildirilen fonksiyonlar friend bildirimin yapıldığı sınıf
+  içerisinde yazılmak zorunda aksi durumda error oluşur. 
+  Burada A sınıfının tanımı eğer B sınıfının üzerinde yapılsaydı 
+  hata ortadan kalkardı.
+-------------------------------------------------------*/
+#include <iostream>
+
+class A;
+
+class B {
+public:
+  B() { std::cout << "B"; }
+  friend B A::createB();
+};
+
+class A {
+public:
+  A() { std::cout << "A"; }
+
+  B createB() { return B(); }
+};
+
+int main() {
+  A a;
+  B b = a.createB();
+}
 
