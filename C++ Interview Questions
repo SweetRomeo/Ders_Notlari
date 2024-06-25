@@ -1,0 +1,24 @@
+Classic Questions
+What is virtual dispatch?
+What is the diamond problem? How to solve it?
+Diamond problem occurs when there are 2 multi level inheritance and the first
+parent class are the same but also the last derived class are the same.
+For this we have two times of the first parent class in the last derived class.
+What are the differences between decltype and auto keywords?
+What is memory leak? What are differences between memory leak and resource leak?
+What are the risks of memory leak and resource leak? How to fix it?
+What is exception handling in C++?
+How do you describe generic programming in C++?
+What is STL?
+Explain object lifetimes one by one.
+What are the special member functions in C++? What is so special about them?
+Describe smart pointers. How many smart pointers are there? What is so smart about them?
+Describe const and constexpr keywords and their differences.
+Explain override and final keywords in C++ language?
+
+Coding Tasks
+1-) Write a program which gets a string as a parameter variable and deletes the first 'a' character in that string
+2-) Write a program which finds the Armstrong numbers and test it
+3-) Write a program which finds the Prime Numbers and test it
+4-) Write a member function called isValidDate which checks that the sent date is Valid or not.
+5-) Write a which does exactly the same thing as atoi function
