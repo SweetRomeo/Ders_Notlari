@@ -2960,13 +2960,815 @@ int main()
     }
 }
 /*-------------------------------------------------------
-  nullptr bir pointer değildir bu sebeple üretilen değer
-  0 olacaktır.
+   auto& kullanımı söz konusu olduğundan bir kopyalama
+   söz konusu olmazken sadece auto kullanımı olduğu durumda
+   copy ctor çağrısı gerçekleştirilir. Buna göre ekrarn çıktısı
+   aabb şeklinde olacaktır.
 -------------------------------------------------------*/
 #include <iostream>
-#include <cstddef>
-#include <type_traits>
+
+struct X {
+   X() { std::cout << "a"; }
+   X(const X &x) { std::cout << "b"; }
+   const X &operator=(const X &x) {
+      std::cout << "c";
+      return *this;
+   }
+};
 
 int main() {
-  std::cout << std::is_pointer_v<decltype(nullptr)>;
+   X x[2];
+   for(auto a: x) {
+
+   }
+   for(auto& a : x) {
+
+   }
+ }
+/*-------------------------------------------------------
+  Aşağıdaki örnekte her bir eleman için ctor çağrısı gerçekleştiricektir.
+-------------------------------------------------------*/
+#include <iostream>
+#include <vector>
+
+struct Foo
+{
+    Foo() { std::cout<<"a"; }
+    Foo(const Foo&) { std::cout<<"b"; }
+};
+
+int main()
+{
+    std::vector<Foo> bar(5);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bar için tür çıkarımı int olarak yapılır,
+  referanslık düşer. Bu durumda barın değişmesi herhangi bir
+  şekilde foo'yu etkilemez bu sebeple ekran çıktısı 0 olarak
+  elde edilir.
+-------------------------------------------------------*/
+#include <iostream>
+
+class A {
+  int foo = 0;
+
+public:
+  int& getFoo() { return foo; }
+  void printFoo() { std::cout << foo; }
+};
+
+int main() {
+  A a;
+
+  auto bar = a.getFoo();
+  ++bar;
+
+  a.printFoo();
+}
+/*-------------------------------------------------------
+  127386
+-------------------------------------------------------*/
+#include <iostream>
+
+class C {
+public:
+    C(int i) : i(i) { std::cout << i; }
+    ~C() { std::cout << i + 5; }
+
+private:
+    int i;
+};
+
+int main() {
+    const C &c = C(1);
+    C(2);
+    C(3);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte öncelikle iki elemanlı bir dizi
+  olduğundan dolayı 2 defa default ctor çağrılacaktır.
+  for döngüsü içerisinde ise bir kopyalama gerçekleştirileceğinden
+  copy ctor sonrasında da f fonksiyonu çağrılır. Döngünün
+  ikinci adımında ise bu tekrarlanır ve tekrardan BC
+  ekrana basılır. Son durumda ekran çıktısı AABCBC
+  şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct A {
+  A() { std::cout << "A"; }
+  A(const A &a) { std::cout << "B"; }
+  virtual void f() { std::cout << "C"; }
+};
+
+int main() {
+  A a[2];
+  for (auto x : a) {
+    x.f();
+  }
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte 1.0 sabiti double türünden olduğu için 
+  overload resolution a göre double parametreli exact match 
+  olacağından o seçilir. 
+-------------------------------------------------------*/
+#include <iostream>
+
+void f(int) { std::cout << "i"; }
+void f(double) { std::cout << "d"; }
+void f(float) { std::cout << "f"; }
+
+int main() {
+  f(1.0);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı pp1 şeklinde olacaktır.
+  Bunun sebebi int[] türünün aslında pointer türü olmasından
+  kaynaklanmaktadır. Ancak eğer dizi uzunluğu bildirilirse bu durumda
+  artık bu bir dizi türüdür diyebiliriz.
+-------------------------------------------------------*/
+#include <iostream>
+#include <typeinfo>
+
+void takes_pointer(int* pointer) {
+  if (typeid(pointer) == typeid(int[])) std::cout << 'a';
+  if (typeid(pointer) == typeid(int*)) std::cout << 'p';
+}
+
+void takes_array(int array[]) {
+  if (typeid(array) == typeid(int[])) std::cout << 'a';
+  if (typeid(array) == typeid(int*)) std::cout << 'p';
+}
+
+int main() {
+  int* pointer = nullptr;
+  int array[1];
+
+  takes_pointer(array);
+  takes_array(pointer);
+
+  std::cout << (typeid(int*) == typeid(int[]));
+}
+/*-------------------------------------------------------
+D0C0
+-------------------------------------------------------*/
+#include<iostream>
+#include<functional>
+class Q{
+    int v=0;
+public:
+    Q(Q&&){
+        std::cout << "M";
+    }
+    Q(const Q&){
+        std::cout << "C";
+    }
+    Q(){
+        std::cout << "D";
+    }
+    void change(){
+        ++v;
+    }
+    void func(){
+        std::cout << v;
+    }
+};
+void takeQfunc(std::function<void(Q)> qfunc){
+    Q q;
+    q.func();
+    qfunc(q);
+    q.func();
+}
+int main(){
+    takeQfunc([](Q&& q){
+        q.change();
+    });
+    return 0;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir tanımsız davranış söz konusudur.
+-------------------------------------------------------*/
+#include <iostream>
+#include <limits>
+
+int main() {
+  int i = std::numeric_limits<int>::max();
+  std::cout << ++i;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte f fonksiyonu virtual olmadığından dolayı
+  B sınıfına ait olan değil A sınıfına ait olan f fonksiyonu
+  çağrılacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+class A {
+public:
+  void f() { std::cout << "A"; }
+};
+
+class B : public A {
+public:
+  void f() { std::cout << "B"; }
+};
+
+void g(A &a) { a.f(); }
+
+int main() {
+  B b;
+  g(b);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir belirsiz davranış söz konusudur
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+  unsigned short zero = 0, one = 1;
+  if (zero - one < zero)
+    std::cout << "less";
+  else
+    std::cout << "more";
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı sadece "main" olarak
+  elde edilecektir, bunun nedeni sizeof operatörün
+  içindeki ifadenin ana koda bir etkisi olmamasından
+  kaynaklanmaktadır.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct A {
+    A() { std::cout << "A"; }
+    ~A() { std::cout << "a"; }
+};
+
+int main() {
+    std::cout << "main";
+    return sizeof new A;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir sentaks hatası söz konusudur.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct S {
+    template <typename Callable>
+    void operator[](Callable f) {
+        f();
+    }
+};
+
+int main() {
+    auto caller = S{};
+    caller[ []{ std::cout << "C";} ];
+}
+/*-------------------------------------------------------
+  const olan bir değişkene her zaman C++ dilinde ilk değer
+  vermek zorunludur. C++'ın deyimiyle const nesneler default
+  init. edilemezler. Bu sebeple aşağıdaki örnekte bir syntax
+  hatası söz konusudr.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct C {
+    C() = default;
+    int i;
+};
+
+int main() {
+    const C c;
+    std::cout << c.i;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 210 şeklinde olacaktır.
+
+-------------------------------------------------------*/
+#include <iostream>
+
+class show_id
+{
+public:
+    ~show_id() { std::cout << id; }
+    int id;
+};
+
+int main()
+{
+    delete[] new show_id[3]{ {0}, {1}, {2} };
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir sentaks hatası söz konusudur.
+-------------------------------------------------------*/
+#include <iostream>
+#include <tuple>
+
+int main()
+{
+    const auto t = std::make_tuple(42, 3.14, 1337);
+    std::cout << std::get<int>(t);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı z olarak elde edilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+#include <string>
+#include <future>
+
+int main() {
+  std::string x = "x";
+
+  std::async(std::launch::async, [&x]() {
+    x = "y";
+  });
+  std::async(std::launch::async, [&x]() {
+    x = "z";
+  });
+
+  std::cout << x;
+}
+/*-------------------------------------------------------
+ Aşağıdaki örnekte bir sentaks hatası söz konusudur.
+ Bunun sebebi friend ile bildirilen fonksiyonun öncelikle
+ A sınıfının bildirimi için yapılıp orada bulunamasından
+ kaynaklanmaktadır. friend olarak bildirilen fonksiyonlar mutlaka
+ var olduğu derleyici tarafından bilinmelidir. Burada A
+ sınıfının tanımını B sınıfının üzerine almak bu sentaks
+ hatasını giderecektir.
+-------------------------------------------------------*/
+#include <iostream>
+
+class A;
+
+class B {
+public:
+    B() { std::cout << "B"; }
+    friend B A::createB();
+};
+
+class A {
+public:
+    A() { std::cout << "A"; }
+    B createB() { return B(); }
+};
+
+int main() {
+    A a;
+    B b = a.createB();
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir Most vexing parse söz konusudur.
+  Burada Y y(X()); ifadesi aslında 
+-------------------------------------------------------*/
+#include <iostream>
+
+struct X {
+  X() { std::cout << "X"; }
+};
+
+struct Y {
+  Y(const X &x) { std::cout << "Y"; }
+  void f() { std::cout << "f"; }
+};
+
+int main() {
+  Y y(X());
+  y.f();
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir Most vexing parse söz konusudur.
+  Burada Y y(X()); ifadesi aslında bir fonksiyon bildirimi
+  olduğundan dolayı burada bir sentaks hatası söz konusudur.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct X {
+  X() { std::cout << "X"; }
+};
+
+struct Y {
+  Y(const X &x) { std::cout << "Y"; }
+  void f() { std::cout << "f"; }
+};
+
+int main() {
+  Y y(X());
+  y.f();
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte B sınıfının ctoru çağrılmadan önce
+  taban sınıfı olan A sınıfının ctoru çağrılacaktır. Bu sebeple
+  A ctor içerisindeki foo çağrısı için virtual dispatch mekanizmasının
+  devreye girmesi söz konusu değildir. Bundan dolayı A sınıfının
+  foo fonksiyonu çağrılacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct A {
+  A() { foo(); }
+  virtual ~A() { foo(); }
+  virtual void foo() { std::cout << "1"; }
+  void bar() { foo(); }
+};
+
+struct B : public A {
+  virtual void foo() { std::cout << "2"; }
+};
+
+int main() {
+  B b;
+  b.bar();
+}
+/*-------------------------------------------------------
+AB
+-------------------------------------------------------*/
+#include<iostream>
+
+template<typename T>
+void foo(T...) {std::cout << 'A';}
+
+template<typename... T>
+void foo(T...) {std::cout << 'B';}
+
+int main(){
+   foo(1);
+   foo(1,2);
+}
+/*-------------------------------------------------------
+
+-------------------------------------------------------*/
+#include <iostream>
+
+int main(int argc, char* argv[]) {
+    std::cout << (argv[argc] == nullptr);
+}
+/*-------------------------------------------------------
+-------------------------------------------------------*/
+#include <iostream>
+
+auto sum(int i)
+{
+  if (i == 1)
+    return i;
+  else
+    return sum(i-1)+i;
+}
+
+int main()
+{
+    std::cout << sum(2);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte mb ikili arama ağacının uzunluğu 1 olacaktır.
+  Çünkü burada 1,3 ve 5 değerlerinin tamamı true'yu ifade ettiği için
+  bu ikili arama ağacına yeni bir değer eklenmiş olmaz. Bu sebeple
+  uzunluğu 1 olur.
+-------------------------------------------------------*/
+#include <iostream>
+#include <map>
+using namespace std;
+
+int main()
+{
+  map<bool,int> mb = {{1,2},{3,4},{5,0}};
+  cout << mb.size();
+  map<int,int> mi = {{1,2},{3,4},{5,0}};
+  cout << mi.size();
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir belirsiz davranış söz konusunun bunun
+  nedeni NULL macrosunun derleyiciye bağlı olarak değişmesinden
+  kaynaklanmaktadır.
+-------------------------------------------------------*/
+#include <cstddef>
+#include <iostream>
+
+void f(void*) {
+    std::cout << 1;
+}
+
+void f(std::nullptr_t) {
+    std::cout << 2;
+}
+
+int main() {
+    int* a{};
+
+    f(a);
+    f(nullptr);
+    f(NULL);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 1R2L şeklinde elde
+  edilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+#include <type_traits>
+
+void g(int&) { std::cout << 'L'; }
+void g(int&&) { std::cout << 'R'; }
+
+template<typename T>
+void f(T&& t) {
+    if (std::is_same_v<T, int>) { std::cout << 1; }
+    if (std::is_same_v<T, int&>) { std::cout << 2; }
+    if (std::is_same_v<T, int&&>) { std::cout << 3; }
+    g(std::forward<T>(t));
+}
+
+int main() {
+    f(42);
+    int i = 0;
+    f(i);
+}
+/*-------------------------------------------------------
+  Bir fonksiyon çağrısında argümanlara geçilen ifadeler aşağıdaki
+  örnekteki gibi fonksiyon çağrıları ise bu durumda hangi
+  fonksiyonun önce çağrılacağı derleyiciye bağlıdır.
+  Sonuç olarak bu programın nasıl çalışıcağı derleyiciye
+  bağlı olduğu için burada bir belirsiz davranış söz konusu
+  olacaktır.
+-------------------------------------------------------*/
+#include <vector>
+#include <iostream>
+
+std::vector<int> v;
+
+int f1() {
+  v.push_back(1);
+  return 0;
+}
+
+int f2() {
+  v.push_back(2);
+  return 0;
+}
+
+void g(int, int) {}
+
+void h() {
+ g(f1(), f2());
+}
+
+int main() {
+  h();
+  h();
+  std::cout << (v[0] == v[2]);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 001 şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+#include <type_traits>
+
+using namespace std;
+
+template<typename T, typename U>
+void f(T, U) {
+    cout << is_same_v<T, U>;
+}
+
+int main() {
+    int i = 0;
+    double d = 0.0;
+    f(i, d);
+    f<int>(i, d);
+    f<double>(i, d);
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 32 olarak elde edilecektir.
+-------------------------------------------------------*/
+#include <iostream>
+
+template<typename T>
+T sum(T arg) {
+    return arg;
+}
+
+template<typename T, typename ...Args>
+T sum(T arg, Args... args) {
+    return arg + sum<T>(args...);
+}
+
+int main() {
+    auto n1 = sum(0.5, 1, 0.5, 1);
+    auto n2 = sum(1, 0.5, 1, 0.5);
+    std::cout << n1 << n2;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte bir belirsiz davranış söz konusudur.
+-------------------------------------------------------*/
+#include <iostream>
+
+void print(int x, int y)
+{
+    std::cout << x << y;
+}
+
+int main() {
+    int i = 0;
+    print(++i, ++i);
+    return 0;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte ekran çıktısı 1 olacaktır. static_assert
+  fonksiyonu herhangi şekilde bir sentaks hatasına neden olmayacaktır.
+
+-------------------------------------------------------*/
+#include <iostream>
+
+template <typename T>
+struct A {
+    static_assert(T::value);
+};
+
+struct B {
+    static constexpr bool value = false;
+};
+
+int main() {
+    A<B>* a;
+    std::cout << 1;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte koşul operatörü sebebiyle a referans bir
+  geçici nesneye bağlanacaktır. 
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+    int i = 1;
+    int const& a = i > 0 ? i : 1;
+    i = 2;
+    std::cout << i << a;
+}
+/*-------------------------------------------------------
+  A1
+-------------------------------------------------------*/
+#include <iostream>
+
+struct Foo {
+  operator auto() {
+    std::cout << "A";
+    return 1;
+  }
+};
+
+int main() {
+  int a = Foo();
+  std::cout << a;
+}
+/*-------------------------------------------------------
+  10
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+  int a = 10;
+  int b = 20;
+  int x;
+  x = a, b;
+  std::cout << x;
+}
+/*-------------------------------------------------------
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+    int a[] = <%1%>;
+    std::cout << a<:0:>;
+}
+/*-------------------------------------------------------
+  underscore(_) karakteriyle başlayan global değişkenlerin
+  ekrana basılması tanımsız davranışa neden olur.
+-------------------------------------------------------*/
+#include <iostream>
+
+int _global = 1;
+
+int main() {
+  std::cout << _global;
+}
+/*-------------------------------------------------------
+  goto deyiminin gittiği yer a nesnesinin faaliyet alanının
+  dışında olduğundan dolayı A sınıfının dtor çağrısı gerçekletirilip
+  tekrardan ctor çağrısı gerçekleştirilir. Bu durumda ekran çıktısı
+  aAaA şeklinde olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+using namespace std;
+
+class A {
+public:
+  A() { cout << "a"; }
+  ~A() { cout << "A"; }
+};
+
+int i = 1;
+
+int main() {
+label:
+  A a;
+  if (i--)
+    goto label;
+}
+/*-------------------------------------------------------
+-------------------------------------------------------*/
+#include <iostream>
+
+using namespace std;
+
+template <typename T>
+struct A {
+    static_assert(false);
+};
+
+int main() {
+    cout << 1;
+}
+/*-------------------------------------------------------
+  abbc
+-------------------------------------------------------*/
+#include <iostream>
+
+struct X {
+  X() { std::cout << "a"; }
+  X(const X &x) { std::cout << "b"; }
+  const X &operator=(const X &x) {
+    std::cout << "c";
+    return *this;
+  }
+};
+
+int main() {
+  X x;
+  X y(x);
+  X z = y;
+  z = x;
+}
+/*-------------------------------------------------------
+  Aşağıdaki örnekte SpecialException türünden bir exception
+  throw edilmektedir ancak bu exception General exception
+  sınıfından kalıtım yoluyla elde edilmiştir. Bu durumda
+  GeneralException türünden olan catch bloğu bu exceptionuı yakalayabilir.
+  e nesnesinin türü zaten GeneralException olduğu için
+  virtual dispatch burada devreye girmez. Sonuç olarak son
+  durumda elde edilen ekran çıktısı G olacaktır.
+-------------------------------------------------------*/
+#include <iostream>
+
+struct GeneralException {
+  virtual void print() { std::cout << "G"; }
+};
+
+struct SpecialException : public GeneralException {
+  void print() override { std::cout << "S"; }
+};
+
+void f() { throw SpecialException(); }
+
+int main() {
+  try {
+    f();
+  }
+  catch (GeneralException e) {
+    e.print();
+  }
+}
+/*-------------------------------------------------------
+  continue deyimi do while döngü deyiminde döngüyü başa değil sona
+  alır. Kısaca bu deyim kontrol neredeyse oraya alır.
+  Bu durumda ilk adımda döngüden çıkılır, ekran çıktısı
+  sadece 1 olarak elde edilir.
+-------------------------------------------------------*/
+#include <iostream>
+
+int main() {
+    int i=1;
+    do {
+        std::cout << i;
+        i++;
+        if(i < 3) continue;
+    } while(false);
+    return 0;
+}
+/*-------------------------------------------------------
+   Aşağıdaki örnekte herhangi bir şekilde bir sentaks hatası oluşmaz
+   Ekran 1 basılır.
+-------------------------------------------------------*/
+#include <iostream>
+
+template <typename T>
+struct A {
+    static_assert(T::value);
+};
+
+struct B {
+    static constexpr bool value = false;
+};
+
+int main() {
+    A<B>* a;
+    std::cout << 1;
 }
