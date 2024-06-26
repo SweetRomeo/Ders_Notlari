@@ -1,0 +1,13 @@
+1-) Virtual dispatch is mechanism which occurs when programmer uses virtual functions.
+This mechanism allows programmer to use runtime polymorphism. That means user is 
+using overriding to occur virtual dispatch.
+
+2-) If the there are 2 classes called B and C which are inherited from a class called A. 
+At the same time there is a D class which is also inherited from not only from B but also from
+C class. In this kinda situation class D includes 2 A classes which is not good for the program. 
+To fix the diamond from users needs to virtual inheritance.
+
+3-) auto and decltype keywords both used for type deductions but there is an important difference
+between them. decltype always gets exactlty the same type as the variable type but while using 
+the auto type deduction the type deduction could be different. For example const will be gone 
+while using auto. Here is an example about it.
