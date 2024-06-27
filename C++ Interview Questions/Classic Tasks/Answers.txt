@@ -27,3 +27,5 @@ Note: The dynamically allocated memories needs be freed because otherwise there 
 The difference between memory leak and resource leak is resources like files can be used by using the fopen function. 
 Those kinda resources needs to be given back just like the memories. So that user needs to use fclose to give the resource back.
 free and fclose are similar, they both give the memory back depends on the situation.
+
+5-) 
