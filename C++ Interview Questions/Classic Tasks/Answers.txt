@@ -11,3 +11,19 @@ To fix the diamond from users needs to virtual inheritance.
 between them. decltype always gets exactlty the same type as the variable type but while using 
 the auto type deduction the type deduction could be different. For example const will be gone 
 while using auto. Here is an example about it.
+
+4-) Memory Leak occurs when there is dynamically allocated memory which is not freed. Here is 
+an example about it:
+
+#include <cstdlib>
+
+int main() {
+    int* arr = static_cast<int*>(malloc(sizeof(int) * 10));
+    //not freed
+}
+
+Note: The dynamically allocated memories needs be freed because otherwise there will be undefined behaviour.
+
+The difference between memory leak and resource leak is resources like files can be used by using the fopen function. 
+Those kinda resources needs to be given back just like the memories. So that user needs to use fclose to give the resource back.
+free and fclose are similar, they both give the memory back depends on the situation.
