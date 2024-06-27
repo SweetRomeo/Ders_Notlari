@@ -1,16 +1,17 @@
-What is virtual dispatch?
-What is the diamond problem? How to solve it?
-Diamond problem occurs when there are 2 multi level inheritance and the first
+1-) What is virtual dispatch?
+2-) What is the diamond problem? How to solve it?
+3-) Diamond problem occurs when there are 2 multi level inheritance and the first
 parent class are the same but also the last derived class are the same. For this we have two times of the first parent class in the last derived class.
 User can solve the diamond problem by using virtual inheritance. The two child classes which inherited from the parent class needs to be done by using the virtual keyword.
 What are the differences between decltype and auto keywords?
-What is memory leak? What are differences between memory leak and resource leak?
-What are the risks of memory leak and resource leak? How to fix it?
-What is exception handling in C++?
-How do you describe generic programming in C++?
-What is STL?
-Explain object lifetimes one by one.
-What are the special member functions in C++? What is so special about them?
-Describe smart pointers. How many smart pointers are there? What is so smart about them?
-Describe const and constexpr keywords and their differences.
-Explain override and final keywords in C++ language?
+4-) What is memory leak? What are differences between memory leak and resource leak?
+5-) What are the risks of memory leak and resource leak? How to fix it?
+6-) What is exception handling in C++?
+7-) How do you describe generic programming in C++?
+8-) What is STL?
+9-) Explain object lifetimes one by one.
+10-) What are the special member functions in C++? What is so special about them?
+11-) Describe smart pointers. How many smart pointers are there? What is so smart about them?
+12-) Describe const and constexpr keywords and their differences.
+13-) Explain override and final keywords in C++ language?
+14-) 
