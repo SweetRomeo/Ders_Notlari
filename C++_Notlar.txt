@@ -1107,9 +1107,9 @@ int main()
 
 /*--------------------------------------------------------
 constexpr anahtar sözcüğü
-1-)const türün bir parçası iken constexpr'nin türle herhangi bir
+1-) const türün bir parçası iken constexpr'nin türle herhangi bir
 alakası yoktur.Bir değişken türü const int olabilirken constexpr int olamaz.
-2-)constexpr değişkenler sabit ifadesi gereken her yerde
+2-) constexpr değişkenler sabit ifadesi gereken her yerde
 kullanımına izin vermektedir. Örneğin otomatik ömürlü bir nesnenin
 adresi sabit ifade olmadığı için syntax hatasına sebep olur.
 Aşağıdaki örnekteki kod geçerlidir
@@ -1121,10 +1121,10 @@ Aşağıdaki örnekteki kod geçerlidir çünkü ptr bir high level
 consttur. Yani bu durumda ptr başka bir adresi gösteremezken
 *ptr'nin değeri değiştirebilir.
 -------------------------------------------------------*/
-int g=10;
+int g = 10;
 
-int main(){
-    constexpr int*ptr=10;
+int main() {
+    constexpr int*ptr = 10;
     *ptr=20;
 }
 /*--------------------------------------------------------
@@ -1134,9 +1134,9 @@ kendisini const yapmaktadır. Bizim babadan kalma const
 anahtar sözcüğümüz ise *ptr ifadesini const yapmaktadır.
 Buna göre aşağıdaki kod geçersizdir.
 -------------------------------------------------------*/
-int g=10;
+int g = 10;
 
-int main(){
+int main() {
     constexpr const int*ptr=10;
     *ptr=20;
 }
@@ -1146,20 +1146,18 @@ sabit ifade gönderilmesi durumunda fonksiyonun geri dönüş değeri
 runtimeda değil compile-time içerisinde hesaplanır bu da
 verim açısından çok iyidir.
 -------------------------------------------------------*/
-constexpr int func(int x,int y){
-
+constexpr int func(int x,int y) {
     return x*x+y*y;
 }
 
-int main(){
+int main() {
     func(10,20);
-
 }
 /*--------------------------------------------------------
 Aşağıdaki örnek C de geçerli olup C++ da geçersizdir.
 -------------------------------------------------------*/
-int main(){
-    for(int i = 0;i<10;++i){
+int main() {
+    for(int i = 0;i<10;++i) {
         int i = 99;
     }
 
