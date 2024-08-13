@@ -1298,7 +1298,7 @@ Function overloading'in programın çalışma zamanına herhangi
 bir maliyeti yoktur. Overload resolution'a göre aday metotlara
 bakılıp uygun fonksiyon çağrılır. Eğer fonksiyonların ikisi
 de
--------------------------------------------------------*/
+--------------------------------------------------------*/
 /*--------------------------------------------------------
 Hangi fonksiyonun çağrılacağına aşağıdaki adımlara göre karar
 verilir ve çağrılır birden çok uygun fonksiyon varsa
