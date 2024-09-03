@@ -8,3 +8,12 @@ Kendisine gönderilen kullanıcı adı yazısı için aşağıdaki koşullar sa�
 
 Fonksiyon kullanııcı adının geçerli olması durumunda "true" yazısı olmaması durumunda "false" yazısını döndürecektir.
 Bu koşulların tamamını sağlayan UsernameValidation isimli fonksiyonu yazınız ve test ediniz.
+
+2-) Faktöriyel 
+Faktöriyel 1 sayısından başlayarak o sayıya kadar sayıların çarpımını ifade eden bir matematiksel gösterimdir. 
+a-) Buna göre kendisine gönderilen sayının faktöriyelini hesaplayıp geri döndüren CalculateFactorial isimli fonksiyonu yazınız ve test ediniz.
+b-) e sayısı: 
+e = 1/0! + 1/1! + 1/2! + ......
+seri toplamından elde edilen bir gerçek sayıdır. Buna göre e sayısını geri dönen getEulerNumber isimli fonksiyonu yazınız ve test ediniz.
+
+3-) 
