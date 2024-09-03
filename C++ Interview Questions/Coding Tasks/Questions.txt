@@ -16,4 +16,26 @@ b-) e sayısı:
 e = 1/0! + 1/1! + 1/2! + ......
 seri toplamından elde edilen bir gerçek sayıdır. Buna göre e sayısını geri dönen getEulerNumber isimli fonksiyonu yazınız ve test ediniz.
 
-3-) 
+3-) Letter Changes
+Bu program fonksiyon:
+- Bir yazı parametresi alacak ve karakterler alfabetik karakterler ise onları değiştirecek.
+- Harf karakterleri değiştirilirken ingilizce alfabeye göre bir sonraki karakteri alacaktır.(Eğer alfabenin son karakteri ise bu durumda başa dönüşüm ilk karakter olarak alınacaktır. 
+Örneğin karakter z ise a, b ise c olacaktır.)
+- Harfler değiştirilirken son durumda elde edilen harfler "a", "e", "i", "o", "u" karakterlerinden herhangi biriyse bu durumda bu karakterler büyütülecektir. (Örneğin "a" karakteri "A" olacaktır.)
+
+koşulları sağlayan LetterChanges isimli fonksiyonu yazınız ve test ediniz.
+
+4-) Soru: BracketMatcher fonksiyonu parametre olarak string alan,
+aç ve kapa parantez sayıları birbirine eşit olduğunda "1" yazısını
+döndürürken, aç ve kapa parantezler birbirine eşit olmadığı durumda
+ise "0" yazısını döndürecektir.
+İstisna durumlar: eğer yazıda hiçbir parantez bulunmuyorsa bu durumda
+gene "1" yazısı döndürülecektir.
+Bazı örnek girişler:
+Giriş: (hello (world))
+Çıktı: 1
+çünkü burada aç ve kapa parantezler birbirine eşittir.
+Giriş: ((hello (world))
+Çıktı: 0
+çünkü açılan parantezlerle kapanan parantezler eşit değil.
+Bu örneklere göre yukarıda açıklanan BracketMatcher fonksiyonunu yazınız ve test ediniz.
