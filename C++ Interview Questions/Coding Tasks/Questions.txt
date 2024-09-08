@@ -39,3 +39,8 @@ Giriş: ((hello (world))
 Çıktı: 0
 çünkü açılan parantezlerle kapanan parantezler eşit değil.
 Bu örneklere göre yukarıda açıklanan BracketMatcher fonksiyonunu yazınız ve test ediniz.
+
+5-) Soru: MeanMode isimli fonksiyon kendisine gönderilen dizinin
+moduyla ortalamasının eşit olup olmadığı kontrol
+edicek. Eğer eşit ise bu durumda 1 eşit değilse
+0 değişkenini döndürecektir. Bu açıklamalara göre MeanMode fonksiyonunu yazınız ve test ediniz.
