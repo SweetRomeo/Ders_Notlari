@@ -1,3 +1,4 @@
+C++ ile Programlama Çalışma Soruları
 1-) Kullanıcı Adı doğrulaması
 Kendisine gönderilen kullanıcı adı yazısı için aşağıdaki koşullar sağlanacaktır:
 
@@ -44,3 +45,13 @@ Bu örneklere göre yukarıda açıklanan BracketMatcher fonksiyonunu yazınız 
 moduyla ortalamasının eşit olup olmadığı kontrol
 edicek. Eğer eşit ise bu durumda 1 eşit değilse
 0 değişkenini döndürecektir. Bu açıklamalara göre MeanMode fonksiyonunu yazınız ve test ediniz.
+
+6-) Soru: Dizinin elemanları eğer belirli bir ilişkiye göre artıyorsa bu artış iki farklı şekilde gerçekleşebilir.
+Geometrik olarak veya Aritmetik olarak. Eğer artık geometrik bir şekilde gerçekleşiyorsa bu durumda elemanların kendisinden 
+bir önce gelen elemanlara oranı her zaman sabittir. Ancak söz konusu olan aritmetik artış ise bu durumda elemanların kendisinden
+önce gelen elemanlara olan farkları sabittir. Örneğin: [2, 4, 6, 8] dizisi bir aritmetik artış gösterirken (4 - 2 = 6 - 4 olduğu için) [2, 6, 18, 54] dizisi 
+geometrik artış gösterir(6 / 2 = 18 / 6 olduğu için). 
+Yukarıdaki açıklamalara göre kendisine gönderilen dizi Aritmetikse string olarak "Arithmetic", geometrik ise string olarak "Geometric", eğer bunların
+ikisi de söz konusu değilse bu durumda -1 yazısını geri dönen ArithGeo isimli fonksiyonu yazınız ve test ediniz.
+
+
