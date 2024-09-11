@@ -59,7 +59,15 @@ o toplam için yeni bir toplam değeri elde edilir. Elde edilen toplam değeri t
 1 ise bu durumda ancak buna mutlu sayı denilebilir. 
 
 Yukarıdaki açıklamaya göre bir sayının mutlu sayı olup olmadığını geri döndüren isHappyNumber isimli fonksiyonu yazınız ve test ediniz.
+Örneğin burada 5552, 2555 gibi sayılara için fonksiyon true değer dönecektir.
 
-8-) 
+8-) UpperCamelCase standardı pek çok pek firmada fonksiyon isimlendirmelerinde kullanılan bir yöntemdir. 
+Yukarıdaki açıklamaya göre kendisine gönderilen ve alfabetik karakterler hariç(boşluk karakteri(" "), alttire karakteri("_") veya özel karakterler) karakterlerle ayrılmış 
+yazılardan bir UpperCamelCase yazısı geri döndüren toUpperCamelCase isimli fonksiyonu yazınız ve test ediniz. İşte bazı örnekler:
+Giriş: "cats AND*Dogs-are Awesome"
+Çıkış: CatsAndDogsAreAwesome
+
+Giriş: "a b c d-e-f%g"
+Çıkış: ABCDEFG
 
 
