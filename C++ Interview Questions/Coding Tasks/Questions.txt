@@ -54,4 +54,12 @@ geometrik artış gösterir(6 / 2 = 18 / 6 olduğu için).
 Yukarıdaki açıklamalara göre kendisine gönderilen dizi Aritmetikse string olarak "Arithmetic", geometrik ise string olarak "Geometric", eğer bunların
 ikisi de söz konusu değilse bu durumda -1 yazısını geri dönen ArithGeo isimli fonksiyonu yazınız ve test ediniz.
 
+7-) Açıklama : Mutlu sayılar basamaklarının sayı değerlerinin kareleri toplamı 1'e eşit olan sayılar. Ancak bu toplamın 10 veya 10'dan büyük olması durumunda
+o toplam için yeni bir toplam değeri elde edilir. Elde edilen toplam değeri tek basamaklı oluncaya kadar bu durum devam eder. Eğer tek basamaklı kaldığında elde edilen sayı 
+1 ise bu durumda ancak buna mutlu sayı denilebilir. 
+
+Yukarıdaki açıklamaya göre bir sayının mutlu sayı olup olmadığını geri döndüren isHappyNumber isimli fonksiyonu yazınız ve test ediniz.
+
+8-) 
+
 
