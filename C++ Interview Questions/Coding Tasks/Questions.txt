@@ -72,3 +72,10 @@ Giriş: "a b c d-e-f%g"
 
 9-) OneDecremented fonksiyon bir yazı alacak ve sırasıyla gelen rakamlarda kaç adet rakamın bir önceki rakamın 1 azı olduğu hesaplayıp geri döndürecektir.
 Örneğin eğer giriş "5655984" olduğu durumda geri dönüş değeri 2 olacaktır. Çünkü 9 dan sonra 8 ve 6 dan sonra 5 gelmiştir. 
+
+10-) Kendisine gönderilen yazıda bulunan en uzun alfanümerik karakterlerden oluşan kelimeyi geri döndüren LongestWord isimli fonksiyonu yazınız ve test ediniz.
+Örnek bazı girişler aşağıdaki gibidir:
+Giriş: fun&%* time 
+Çıktı: time
+Çıktının time olmasının nedeni fun&%* kelimesi daha uzun olsa bile numara veya harflerinin uzunluğu olarak time yazısından daha uzun değildir. Bu sebeple time çıktısı elde 
+edilir. 
