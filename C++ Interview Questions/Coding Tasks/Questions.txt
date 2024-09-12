@@ -70,4 +70,5 @@ Giriş: "cats AND*Dogs-are Awesome"
 Giriş: "a b c d-e-f%g"
 Çıkış: ABCDEFG
 
-
+9-) OneDecremented fonksiyon bir yazı alacak ve sırasıyla gelen rakamlarda kaç adet rakamın bir önceki rakamın 1 azı olduğu hesaplayıp geri döndürecektir.
+Örneğin eğer giriş "5655984" olduğu durumda geri dönüş değeri 2 olacaktır. Çünkü 9 dan sonra 8 ve 6 dan sonra 5 gelmiştir. 
