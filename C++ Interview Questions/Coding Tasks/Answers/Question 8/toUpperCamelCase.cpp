@@ -10,14 +10,12 @@ Giriş: "a b c d-e-f%g"
 --------------------------------------------------------*/
 #include <string>
 #include <iostream>
-#include <stack>
 #include <sstream>
 #include <cmath>
-#include <algorithm>
 
 using namespace std;
 
-string DifferentCases(string str) {
+string toUpperCamelCase(const string& str) {
   string resultText;
   string tempText;
   bool upperFlag = true;
@@ -40,8 +38,8 @@ string DifferentCases(string str) {
 int main()
 {
     string s1 = "cats AND*Dogs-are Awesome";
-    cout << boolalpha << DifferentCases(s1) << '\n';
+    cout << boolalpha << toUpperCamelCase(s1) << '\n';
     string s2 = "a b c d-e-f%g";
-    cout << DifferentCases(s2) << '\n';
+    cout << toUpperCamelCase(s2) << '\n';
     return 0;
 }
