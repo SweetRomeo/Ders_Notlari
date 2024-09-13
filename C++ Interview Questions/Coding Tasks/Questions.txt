@@ -86,3 +86,11 @@ kendisine gönderilen yazıyı ascii tablo değerine göre dönüştüren ASCIIC
 Giriş: dog
 Çıkış: 100111103
 Bunun nedeni d = 100, o = 111 ve g = 103 olmasından kaynaklanmaktadır.
+
+12-) Kendine gönderilen sayıya 1 den başlarak ardışık şekilde yazdıran fonksiyonu yazınız. 
+    - Fonksiyonda 3 ile kalansız bölünebilen sayılar yerine Fizz
+    - 5 ile kalansız bölünebilen sayıların yerine Buzz 
+    - Hem 5 hem de 3 ile kalansız bölünebilen sayıların yerine de FizzBuzz basılacaktır. 
+Örneğin klavyeden 16 girildiğinde ekran çıktısı aşağıdaki gibi olacaktır.
+Girdi : 16
+Çıktı : 1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz 16
