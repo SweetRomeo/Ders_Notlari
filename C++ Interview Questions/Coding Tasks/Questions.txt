@@ -79,3 +79,10 @@ Giriş: fun&%* time
 Çıktı: time
 Çıktının time olmasının nedeni fun&%* kelimesi daha uzun olsa bile numara veya harflerinin uzunluğu olarak time yazısından daha uzun değildir. Bu sebeple time çıktısı elde 
 edilir. 
+
+11-) Her harfin ascii tablosunda bir değeri bulunmaktadır. Örneğin 65 sayı değeri aslında 'A' karakterinin Tablo değerini ifade etmektedir. Bu açıklamalara göre 
+kendisine gönderilen yazıyı ascii tablo değerine göre dönüştüren ASCIIConversion isimli fonksiyonu yazınız ve test ediniz.
+Örneğin:
+Giriş: dog
+Çıkış: 100111103
+Bunun nedeni d = 100, o = 111 ve g = 103 olmasından kaynaklanmaktadır.
