@@ -1,7 +1,8 @@
 /*----------------------------------------
 13-) Soru: LetterCount fonksiyonu bir yazı alıp
 yazıda bulunan kelimelerden tekrar eden karakterden
- oluşan ilk yazıyı döndürecektir. Örneğin:
+ oluşan ilk yazıyı döndürecektir. Bazı örnek 
+ girişler aşağıdaki gibidir:
  Giriş: Hello world
  Çıktı: Hello
  Giriş: code you need
