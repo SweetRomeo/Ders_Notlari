@@ -1,5 +1,5 @@
 /*--------------------------------------------------------
-15-) Three Numbers isimli fonksiyon bir string parametre alarak
+17-) Three Numbers isimli fonksiyon bir string parametre alarak
 kendisine gönderilen yazının her bir cümlesinde eşsiz
 karakterler arayacak. Eğer cümlelerin hepsinde en az 3 tane eşşiz karakter(sayı) bulunuyorsa
 fonksiyon bu durumda true döndürecektir. Ancak 3'ün altında eşsiz
