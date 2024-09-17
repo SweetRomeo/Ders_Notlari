@@ -103,4 +103,49 @@ Output: 9-9-946
 Input: 56730
 Output: 567-30
 
-14-) 
+14-) 13-) Dash Insert
+Have the function DashInsert(str) insert dashes ('-') between each two odd numbers in str. For example: if str is 454793 the output should be 4547-9-3. Don't count zero as an odd number.
+Examples
+Input: 99946
+Output: 9-9-946
+Input: 56730
+Output: 567-30
+
+15-) Other products
+Bu fonksiyon kendisine gönderilen dizinin tüm elemanlarının
+çarpımını elde edip sırasıyla tüm elemanlarına bölümünü
+bulup elde edilen sonuçların arasına "-" ekleyip bu yazıyı
+geri döndürecek. Aşağıda bununla ilgili bazı örnekler verilmiştir:
+Giriş: [1, 2, 3, 4, 5]
+Çıktı: 120-60-40-30-24
+
+Giriş: {3,1,2,6}
+Çıktı: 12-36-18-6
+
+Giriş: {1,4,3}
+Çıktı: 12-3-4
+
+16-) Basic Roman Numerals
+Romen rakamları sırasıyla I = 1, V = 5, X = 10, L = 50,
+C = 100, D = 500, M = 1000 şeklinde ifade edilir. I
+
+17-) Three Numbers isimli fonksiyon bir string parametre alarak
+kendisine gönderilen yazının her bir cümlesinde eşsiz
+karakterler arayacak. Eğer cümlelerin hepsinde en az 3 tane eşşiz karakter(sayı) bulunuyorsa
+fonksiyon bu durumda true döndürecektir. Ancak 3'ün altında eşsiz
+karakter bulunduğu takdirde veya 3 eşsiz karakter olmasına karşın
+bu karakterlerin yan yana olması durumunda false geri döndürecektir.
+İşte bazı örnekler:
+Giriş: "2hell6o3 wor6l7d2"
+Çıktı: true(tüm cümlelerdeki eşsiz rakam karakterleri 3 ten fazla)
+Giriş: "hell268o w6or2l4d"
+Çıktı: false(her kelimede en az 3 eşsiz rakam var ancak bunların hepsi peş peşe)
+
+18-) Hamming Distance
+Kendisine gönderilen iki yazıdan ilkinde olup ikincisinde olmayanlarının
+sayısını geri döndüren HammingDistance isimli fonksiyonu yazınız
+ve test ediniz. Karakterlerin diğer yazının sadece içinde bulunması
+değil aynı konumda olması durumunda ancak toplam etkilenmecektir.
+Örneğin:
+Giriş: {"codec", "coder"}
+Çıktı: 1(çünkü ikinci yazıda c'nin olduğu yerde r karakteri var.)
