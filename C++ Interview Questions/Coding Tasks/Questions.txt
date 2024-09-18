@@ -149,3 +149,9 @@ değil aynı konumda olması durumunda ancak toplam etkilenmecektir.
 Örneğin:
 Giriş: {"codec", "coder"}
 Çıktı: 1(çünkü ikinci yazıda c'nin olduğu yerde r karakteri var.)
+
+19-) Third Greatest
+Kendisine gönderilen string türünden elemanlardan oluşan bir
+dizinin en büyük üçüncü elemanını geri döndüren thirdGreatest isimli fonksiyonu
+yaınız ve test ediniz.
+Not: Büyüklük yazı uzunluğuna göre olacaktır. Lexi. compare kullanılmayacaktır. 
