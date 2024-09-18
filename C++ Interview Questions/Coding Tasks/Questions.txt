@@ -155,3 +155,12 @@ Kendisine gönderilen string türünden elemanlardan oluşan bir
 dizinin en büyük üçüncü elemanını geri döndüren thirdGreatest isimli fonksiyonu
 yaınız ve test ediniz.
 Not: Büyüklük yazı uzunluğuna göre olacaktır. Lexi. compare kullanılmayacaktır. 
+
+20-) Kendisine gönderilen cümledeki kelimelerden en çok tekrar
+eden karaktere sahip olan yazıyı geri döndüren LetterCount
+isimli fonksiyonu yazınız ve test ediniz. Program tekrar
+eden karakter içermeyen durumlarda -1 döndürecektir.                          
+Giriş: Hello world
+Çıktı: Hello
+Giriş: No words
+Çıktı: -1
