@@ -164,3 +164,58 @@ Giriş: Hello world
 Çıktı: Hello
 Giriş: No words
 Çıktı: -1
+
+21-) Even Pairs
+Hide Question
+Have the function EvenPairs(str) take the str parameter
+ being passed and determine if a pair of adjacent even
+ numbers exists anywhere in the string. If a pair exists,
+ return the string true, otherwise return false. For example:
+ if str is "f178svg3k19k46" then there are two even numbers at the
+ end of the string, "46" so your program should return the string true.
+ Another example: if str is "7r5gg812" then the pair is "812" (8 and 12)
+ so your program should return the string true.
+
+22-) LargestFour
+Kendisine gönderilen dizinin en büyük 4 elemanının
+toplamını geri döndüren LargestFour isimli fonkisyonu yazınız ve
+test ediniz.
+
+23-) Bitwise Two
+Kendisine gönderilen iki yazıya sahip olan dizilerin
+elemanlarının birer birer bitsel ve işlemine sokarak
+sonucu döndüren Bitwisetwo isimli fonksiyonu yazınız
+ve test ediniz.
+
+24-) StarRating
+Kendisine gönderilen yazı şeklinde yıldız reyting değerine
+bağlı aşağıdaki yazıları döndüren StarRating isimli fonksiyonu
+yazınız ve test ediniz.
+- Reyting minimum 0.00 maksimum 5.00 şeklinde olacaktır.
+- Reyting yazısı 5 ana bölümden oluşacak ve bu yazı tipi
+boş olan yıldızlar için "empty", bir kısmı boş olan yıldızlar
+içim "half" ve tamamı dolu olan yıldızlar için "full" yazısı
+olarak ifade edilecektir.
+- Bir yıldızın "half" olması için noktadan sonraki kısmının
+0.1 den büyük ve 0.75 ten küçük olması gerekmektedir.
+- 0.1'den küçük olan yıldızlar empty olarak sayılırken
+0.75 ten büyük olan yıldızlar full sayılacaktır.
+İşte bazı örnekler:
+Giriş: "0.38"
+Çıktı: half empty empty empty empty
+Çıktı: "1.02"
+Çıktı: full empty empty empty empty
+Giriş: "4.5"
+Çıktı: full full full full half
+
+25-) CaesarCipher
+Kendisine gönderilen yazıya ve sayıya göre yazının alfabetik
+karakterlerini kendisine gönderilen sayı kadar alfabede ileri
+götürüp o karakter ile değiştiren CaesarCipher isimli fonksiyonu
+yazınız ve test ediniz.
+Not: karakter alfabenin sonunu aştığı takdirde baştan başlayarak
+gidilmektedir. Örneğin karakter z karakteri ve 2 adım kaydırma
+yapılacaksa b karakteri elde edilecektir.
+
+Not2: Karakter değiştirilken karakterin büyüklük küçüklüğü
+değiştirilmeli ayrıca alfabetik olmayan karakterler değiştirilmeyecektir.
