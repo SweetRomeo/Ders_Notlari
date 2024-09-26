@@ -1,5 +1,5 @@
 /*--------------------------------------------------------
-30-) DistinctCharacters
+31-) DistinctCharacters
 Kendisine gönderilen string türünden bir yazının içerisinde
 eşsiz karakter sayısını bulup, eğer eşsiz karakter sayısı
 en az 10 ise true yazısını eğer 10'dan küçük ise false yazısını
