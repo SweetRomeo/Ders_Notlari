@@ -419,5 +419,76 @@ Girdi: {"5", "A", "B", "C", "D", "F", "A-B", "A-C", "B-C", "C-D", "D-F"}
 
 Girdi: {"4", "X", "Y", "Z", "W", "X-Y", "Y-Z", "X-W"}
 Çıktı: X-W
+Çözüm:
+#include <iostream>
+#include <string>
+#include <queue>
+#include <unordered_map>
+#include <sstream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
 
+string ShortestPath(string strArr[], int arrLength) {
+    int N = stoi(strArr[0]); // İlk eleman düğüm sayısıdır
+    vector<string> nodes(strArr + 1, strArr + 1 + N); // Düğümleri alırız
+    unordered_map<string, vector<string>> graph; // Grafiği saklayacağımız map
+    
+    // Bağlantıları okuyup grafiği oluşturuyoruz
+    for (int i = N + 1; i < arrLength; ++i) {
+        string edge = strArr[i];
+        size_t pos = edge.find("-");
+        string node1 = edge.substr(0, pos);
+        string node2 = edge.substr(pos + 1);
+        graph[node1].push_back(node2);
+        graph[node2].push_back(node1);
+    }
+
+    // BFS (Genişlik Öncelikli Arama) kullanarak en kısa yolu buluyoruz
+    unordered_map<string, string> parent; // Yol takibi için parent map'i
+    queue<string> q;
+    q.push(nodes[0]);
+    parent[nodes[0]] = ""; // Başlangıç düğümü için parent yok
+
+    while (!q.empty()) {
+        string current = q.front();
+        q.pop();
+
+        if (current == nodes.back()) { // Son düğüme ulaşırsak
+            vector<string> path;
+            while (!current.empty()) {
+                path.push_back(current);
+                current = parent[current];
+            }
+            reverse(path.begin(), path.end()); // En kısa yolu ters çeviriyoruz
+            stringstream result;
+            for (int i = 0; i < path.size(); ++i) {
+                result << path[i];
+                if (i < path.size() - 1) result << "-";
+            }
+            return result.str();
+        }
+
+        for (string neighbor : graph[current]) {
+            if (parent.find(neighbor) == parent.end()) {
+                parent[neighbor] = current;
+                q.push(neighbor);
+            }
+        }
+    }
+
+    // Eğer son düğüme ulaşılamıyorsa -1 döndür
+    return "-1";
+}
+
+int main(void) { 
+   
+  // keep this function call here
+  string A[] = coderbyteInternalStdinFunction(stdin);
+  int arrLength = sizeof(A) / sizeof(*A);
+  cout << ShortestPath(A, arrLength);
+  return 0;
+    
+}
+//--------------------------------------------------------------
