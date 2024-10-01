@@ -1,5 +1,5 @@
 /*--------------------------------------------------------
-35-) Rectangle Area
+38-) Rectangle Area
 Kendisine gönderilen 4 adet koordinatı verilen dörtgenin alanını
 hesaplayan rectangeArea isimli fonksiyonu yazınız ve test ediniz.
 Giriş: ["(0 0)", "(3 0)", "(0 2)", "(3 2)"]
