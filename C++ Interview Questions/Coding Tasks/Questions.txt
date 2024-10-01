@@ -219,3 +219,193 @@ yapılacaksa b karakteri elde edilecektir.
 
 Not2: Karakter değiştirilken karakterin büyüklük küçüklüğü
 değiştirilmeli ayrıca alfabetik olmayan karakterler değiştirilmeyecektir.
+
+26-) Word Split
+Kendisine gönderilen iki yazıdan ikincinin içerisinde bulunan
+yazıların kombinasyonundan ilk yazıyı elde edebiliyorsa
+bu durumda o yazıları aralarında virgülle birlikte döndüren
+WordSplit isimli fonksiyonu yazınız. Fonksiyon ilk yazının
+elde edilememesi durumunda "not possiible" yazısını döndürecektir.
+Bazı örnek girişler aşağıdaki gibidir:
+Giriş : {"hellocat", "apple,bat,cat,goodbye,hello,yellow,why"}
+Çıktı : base,ball
+Giriş : {"abcgefd", "a,ab,abc,abcg,b,c,dog,e,efd,zzzz"}
+Çıktı : abcg,efd
+Giriş: {"hellocat", "apple,bat,cat,goodbye,hello,yellow,why"}
+
+27-) ArrayAdditionI
+Fonksiyon kendisine gönderilen dizinin en büyük elemanın
+diğer herhangi eleman toplamıyla elde edilip edilemeyeceğini
+inceleyecektir. Fonksiyon elde edilebilmesi durumunda
+true edilememesi durumunda false döndürecektir.
+
+28-) MultiplicativePersistence
+Kendisine gönderilen int türünden bir sayının basamaklarının
+çarpımlarını tek basamaklı olana kadar hesaplayıp tek
+basamaklı hale kaç adımda geldiğini geri döndüren MultiplicativePersistence
+isimli fonksiyonu yazınız ve test ediniz.
+Giriş: 39
+Çıktı: 3(3 * 9 = 27 => 2 * 7 = 14 => 1 * 4 = 0)
+3 aşamada 4(tek basamaklı sayı) elde edildi.
+Giriş: 25
+Çıktı: 2(2 * 5 = 10 => 1 * 0 = 0)
+
+29-) AdditivePersistence
+Kendisine gönderilen int türden bir sayının
+rakamları toplamını sayı tek basamaklı hale gelene
+kadar hesaplayıp, bu işlemin kaç adımda yapıldığını
+geri döndüren AdditivePersistence isimli fonksiyonu
+yazınız ve test ediniz.
+Giriş: 2718
+Çıktı: 2(2 + 7 + 1 + 8 = 18 => 1 + 8 = 9
+bu operasyon iki adımda gerçekleştiği için 2)
+
+30-) GCF
+Kendisine gönderilen iki elemanlı bir dizinin
+elemanlarının en büyük ortak çarpanını geri döndüren
+GCF fonksiyonunu yazınız ve test ediniz.
+Giriş: {45, 12}
+Çıktı: 3(en büyük ortak çarpanları 3)
+
+31-) DistinctCharacters
+Kendisine gönderilen string türünden bir yazının içerisinde
+eşsiz karakter sayısını bulup, eğer eşsiz karakter sayısı
+en az 10 ise true yazısını eğer 10'dan küçük ise false yazısını
+geri döndüren DistinctCharacters isimli fonksiyonu yazınız ve test
+ediniz.
+Giriş: 12334bbmma:=6
+Çıktı: true(10 adet eşsiz karakter var.)
+Giriş: eeeemmmmmmmmm1000
+Çıktı: false(10'dan az eşsiz karakter var.)
+Giriş: abc123kkmmmm?
+Çıktı: false(10'dan az eşsiz karakter var.)
+
+32-) Closest Enemy
+Kendisine gönderilen int türünden aşağıdaki
+açıklamaya göre bir int türünden değer döndürecektir:
+- Dizi yaşmızca 0,1 ve 2 rakamlarından oluşacaktır.
+- Dizi içerisinde 1 tek bir tane olucak ve kişinin konumunu
+belirtecek.
+- Dizi içerisindeki 0 lar boşluk anlamına gelmektedir.
+- Dizi içerisindeki 2 ler ise düşmanı belirtmektedir.
+Buna göre fonksiyon 1 sayısına en yakın olan 2 rakamına
+olan uzaklığı geri döndürecektir. Fonksiyon 2 hiç olmaması
+durumunda 0 döndürecektir. Örneğin:
+Giriş: {0, 1, 0}
+Çıktı: 0
+Giriş: {0, 0, 1, 0, 0, 2, 0, 2}
+Çıktı: 3
+Giriş: {1, 0, 0, 0, 2, 2, 0, 0}
+Çıktı: 4
+
+33-) Number Stream
+Have the function NumberStream(str) take the str parameter being passed
+which will contain the numbers 2 through 9, and determine if there is
+a consecutive stream of digits of at least N length where N is the actual
+digit value. If so, return the string true, otherwise return the string false.
+For example: if str is "6539923335" then your program should return the string true because
+there is a consecutive stream of 3's of length 3. The input string will always contain at least one digit.
+
+34-) String Merge
+Kendisine gönderilen string türden yazının yıldız ile ayrılmış iki yazıya
+bölüp elemanlarını sırayla ekleyerek birleştirip oluşan yazıyı
+geri döndüren StringMerge isimli fonksiyonu yazınız ve test ediniz.
+
+35-) Group Totals
+Kendisine gönderilen string türden koordinat elemanlarına sahip olan
+toplam koordinat değeri 0 dan büyük olan elemanlar toplamını aralarında virgül olacak
+şekilde geri döndüren GroupTotals isimli fonksiyonu yazınız
+ve test ediniz. Aşağıdaki bunla ilgili örnek girişler verilmiştir:
+Giriş: {"X:-1", "Y:1", "X:-4", "B:3", "X:5"}
+Çıktı: B:3,Y:1
+Giriş: {"P:6", "PI:1396", "PI:20", "P:-3"}
+Çıktı: P:3,PI:1416
+
+36-) Fibonacci Checker
+Fibonacci serisi 1 1 2 3 5 8 13... şeklinde devam eden
+bir seridir. FibonacciChecker fonksiyonu kendisine gönderilen
+sayının bir fibonacci sayısına eşit olup olmadığını göre
+yes veya no yazısını geri döndüren fonksiyonu yazınız ve test ediniz.
+Giriş: 1
+Çıktı: yes
+Giriş: 5
+Çıktı: yes
+Giriş: 112
+Çıktı: no
+
+37-) Overlapping Ranges
+Kendisine gönderilen 5 elemanlı bir dizinin ilk iki elemanındaki
+range ile 3. ve 4. elemanları arasındaki range değerlerinden
+ortak olanlarını alıp bunun son elemana en azından eşit olması
+durumunda true döndürecektir. Örneğin dizi [4, 10, 2, 6, 3]
+şeklinde olsun burada 4-10 aralığında: 4,5,6,7,8,9 ve 10
+saıyları bulunmaktadır. diğer taraftan 2-6 aralığında ise
+2,3,4,5 ve 6 sayıları bulunmaktadır. Bu iki aralığın ortak
+elemanlarının sayısı en fazla son eleman kadar olması gerekmektedir.
+Burada bu eleman sayısı 4,5 ve 6 olmak üzere 3 adettir. Bu da son elemana
+eşit olduğundan sonuç true olarak döner. Aşağı buna benzer 2 örnek daha verilmiştir:
+Giriş: {5,11,1,5,1}
+Çıktı: true
+Giriş: {1,8,2,4,4}
+Çıktı: false
+
+38-) Rectangle Area
+Kendisine gönderilen 4 adet koordinatı verilen dörtgenin alanını
+hesaplayan rectangeArea isimli fonksiyonu yazınız ve test ediniz.
+Giriş: ["(0 0)", "(3 0)", "(0 2)", "(3 2)"]
+Çıktı: 6
+
+39-) Number Search
+NumberSearch(str) fonksiyonunu yazın. Bu fonksiyon, str
+ parametresindeki tüm sayıları bulmalı, bunları toplayıp
+ ardından bu toplamı, metindeki harflerin sayısına bölerek
+ sonucu döndürmelidir. Örneğin: eğer str "Hello6 9World 2, Nic8e D7ay!"
+ ise, çıktı 2 olmalıdır. İlk olarak tüm sayıları topladığımızda,
+ 6 + 9 + 2 + 8 + 7 = 32 elde ederiz. Ardından metinde 17 harf vardır.
+ 32 / 17 = 1.882 sonucunu elde ederiz ve bu sonuç en yakın tam sayıya
+ yuvarlandığında cevap 2 olur. Metin boyunca yalnızca boşluklarla ayrılmış
+tek haneli sayılar kullanılacaktır (Bu nedenle hello44444 world gibi bir durum olmayacaktır).
+Her string'de en az bir harf bulunacaktır.
+Giriş: "Hello6 9World 2, Nic8e D7ay!"
+Çıktı: 2
+
+40-) Array Addition
+Dizideki herhangi bir sayı kombinasyonu (en büyük sayı hariç)
+dizideki en büyük sayıya eşit olacak şekilde toplanabiliyorsa,
+ArrayAddition(arr) işlevinin arrr'da saklanan sayı dizisini
+almasını ve dizeyi true döndürmesini sağlayın. aksi takdirde
+diziyi false döndürür. Örneğin: eğer arr [4, 6, 23, 10, 1, 3]
+içeriyorsa çıktı true döndürmelidir çünkü 4 + 6 + 10 + 3 = 23.
+Dizi boş olmayacak, aynı öğelerin tümünü içermeyecek ve negatif sayılar içerebilir.
+Örneğin:
+Giriş: {5,7,16,1,2}
+Çıktı: false
+Giriş: {3,5,-1,8,12}
+Çıktı: true
+
+41-) Coin Determiner
+kendisine gönderilen 1-250 arası bir sayıyı belli
+değerlere sahip olan(1,5,7,9,11) paralardan minimum kaç tane kullanılarak
+elde edilebileceği geri döndüren CoinDeterminer isimli fonksiyonu yazınız
+ve test ediniz. Örneğin:
+Giriş: 25
+Çıktı: 3(çünkü 25 -> 11, 9 ve 5)
+Giriş: 16
+Çıktı: 2(16 -> 11 + 5)
+
+42-) Dash InsertII
+Kendisine gönderilen long türden bir sayıda eğer ard arda
+gelen rakamların ikisi de tek ise aralarına kısa çizgi('-')
+karakterini, eğer ikisi de çift ise asteriks karakterini('*')
+ekleyen DashInsertII isimli fonksiyonu yazınız ve test ediniz.
+Fonksiyon sayılardan herhangi birinin 0 olması durumunda veya
+birinin tek birinin çift olması durumunda aralarına herhangi bir karakter eklemiycektir.
+Bazı örnek çıktılar aşağıdaki gibidir:
+Giriş: 99946
+Çıktı: 9-9-94*6
+Giriş: 56647304
+Çıktı: 56*6*47-304
+
+
+
+
