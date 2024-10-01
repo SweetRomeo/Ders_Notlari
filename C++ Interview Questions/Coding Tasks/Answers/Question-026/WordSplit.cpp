@@ -1,5 +1,5 @@
 /*--------------------------------------------------------
-25-) Word Split
+26-) Word Split
 Kendisine gönderilen iki yazıdan ikincinin içerisinde bulunan
 yazıların kombinasyonundan ilk yazıyı elde edebiliyorsa
 bu durumda o yazıları aralarında virgülle birlikte döndüren
