@@ -1,5 +1,5 @@
 /*--------------------------------------------------------
-35-) Overlapping Ranges
+37-) Overlapping Ranges
 Kendisine gönderilen 5 elemanlı bir dizinin ilk iki elemanındaki
 range ile 3. ve 4. elemanları arasındaki range değerlerinden
 ortak olanlarını alıp bunun son elemana en azından eşit olması
