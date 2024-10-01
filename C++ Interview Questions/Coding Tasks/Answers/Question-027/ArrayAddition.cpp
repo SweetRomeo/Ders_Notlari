@@ -1,5 +1,5 @@
 /*--------------------------------------------------------
-25-) ArrayAdditionI
+27-) ArrayAdditionI
 Fonksiyon kendisine gönderilen dizinin en büyük elemanın
 diğer herhangi eleman toplamıyla elde edilip edilemeyeceğini
 inceleyecektir. Fonksiyon elde edilebilmesi durumunda
