@@ -406,6 +406,18 @@ Giriş: 99946
 Giriş: 56647304
 Çıktı: 56*6*47-304
 
+43-) Shortest Path
 
+ShortestPath(strArr) fonksiyonunu yazın. Bu fonksiyon, bir döngü içermeyen bir grafiği modelleyen bir dizi dizeyi (strArr) girdi olarak alacaktır. Dizinin yapısı şu şekilde olacaktır: Dizideki ilk eleman dizideki düğüm sayısı N (noktalar) olacaktır. Bu değer bir dize olarak gelecektir. Sonraki N eleman düğümleri temsil edecek ve bunlar herhangi bir şey olabilir (A, B, C .. Brick Street, Main Street vb.). Daha sonra N. elemandan sonra, dizideki geri kalan elemanlar düğümler arasındaki bağlantıları gösterecektir. Bağlantılar şu şekilde görünecektir: (A-B, B-C .. Brick Street-Main Street vb.). Bununla birlikte, hiç bağlantı bulunmayabilir.
+
+strArr için bir örnek: ["4", "A", "B", "C", "D", "A-B", "B-D", "B-C", "C-D"]. Programınız, dizideki ilk düğümden son düğüme kadar en kısa yolu, tire işaretleriyle ayırarak döndürmelidir. Yukarıdaki örnekte, çıktı A-B-D olmalıdır. İşte başka bir örnek: ["7", "A", "B", "C", "D", "E", "F", "G", "A-B", "A-E", "B-C", "C-D", "D-F", "E-D", "F-G"]. Bu dizi için çıktı A-E-D-F-G olmalıdır. Dizi için her zaman yalnızca bir tane en kısa yol olacaktır. Eğer ilk ve son düğüm arasında herhangi bir yol yoksa, -1 döndürün. Dizi en az iki düğüme sahip olacaktır. Ayrıca, örneğin A-B bağlantısı Anın Bye ve Bnin de Aya ulaşabileceği anlamına gelir.
+
+Örnekler
+
+Girdi: {"5", "A", "B", "C", "D", "F", "A-B", "A-C", "B-C", "C-D", "D-F"}
+Çıktı: A-C-D-F
+
+Girdi: {"4", "X", "Y", "Z", "W", "X-Y", "Y-Z", "X-W"}
+Çıktı: X-W
 
 
