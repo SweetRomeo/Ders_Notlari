@@ -1,5 +1,5 @@
 /*--------------------------------------------------------
-35-) Fibonacci Checker
+36-) Fibonacci Checker
 Fibonacci serisi 1 1 2 3 5 8 13... şeklinde devam eden
 bir seridir. FibonacciChecker fonksiyonu kendisine gönderilen
 sayının bir fibonacci sayısına eşit olup olmadığını göre
