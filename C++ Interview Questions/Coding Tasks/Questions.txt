@@ -1351,4 +1351,50 @@ Output: 541
 Input: 16
 Output: 53
 
+Çözüm:
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+bool isPrime(const long val)
+{
+  if (val <= 1)
+    return false;
+  if (val % 2 == 0) 
+    return val == 2;
+  if (val % 3 == 0)
+    return val == 3;
+  if (val % 5 == 0)
+    return val == 5;
+  if (val % 7 == 0)
+    return val == 7;
+  for (long i = 11; i * i <= val; i += 2) {
+    if (val % i == 0) 
+      return false;
+  }
+  return true;        
+}
+
+int PrimeMover(int num) {
+  int nthPrimeNum;
+  int count = 0;
+  for (int i = 2; i < 10000; ++i) {
+    if (isPrime(i)) {
+      count++;
+    }
+    if (num == count) {
+      nthPrimeNum = i;
+      break;
+    }
+  }
+  return nthPrimeNum;
+}
+
+int main(void) { 
+  // keep this function call here
+  cout << PrimeMover(coderbyteInternalStdinFunction(stdin));
+  return 0;  
+}
+
 53-) 
