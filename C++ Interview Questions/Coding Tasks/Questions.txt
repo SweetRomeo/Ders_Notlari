@@ -1338,4 +1338,17 @@ int main(void) {
   return 0;
 }
 
-52-) 
+52-) Prime Mover
+Kendisine gönderilen int türden sayıncı asal sayıyı geri döndüren Prime Mover isimli fonksiyonu 
+yazınız ve test ediniz. Aşağıda bununla ilgili bazı örnekler verilmiştir:
+
+Input: 9
+Output: 23
+
+Input: 100
+Output: 541
+
+Input: 16
+Output: 53
+
+53-) 
