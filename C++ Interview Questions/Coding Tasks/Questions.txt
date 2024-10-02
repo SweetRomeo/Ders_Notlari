@@ -1397,4 +1397,54 @@ int main(void) {
   return 0;  
 }
 
-53-) 
+53-) Swap II
+Have the function SwapII(str) take the str parameter and swap the case of each character. Then, if a letter is between two numbers (without separation), switch the places 
+of the two numbers. For example: if str is "6Hello4 -8World, 7 yes3" the output should be 4hELLO6 -8wORLD, 7 YES3.
+
+Examples
+Input: "Hello -5LOL6"
+Output: hELLO -6lol5
+Input: "2S 6 du5d4e"
+Output: 2s 6 DU4D5E
+
+Solution:
+
+#include <iostream>
+#include <string>
+#include <cctype>
+using namespace std;
+
+std::string SwapII(std::string str) {
+  int prev_digit = -1;
+  for (int i = 0; i < str.length(); i++) {
+    char c = str[i];
+    // SWAP CASE
+    if (std::isalpha(str[i])) {
+      str[i] = (std::isupper(str[i])) ? std::tolower(str[i]) : std::toupper(str[i]);
+    }
+    //SWAP DIGITS
+    if (std::isdigit(c) && prev_digit > -1) {
+      if (i - prev_digit == 1) {
+        prev_digit = i;
+        continue;
+      }
+      std::swap(str[i], str[prev_digit]);
+      prev_digit = -1;
+    } else if (!std::isalpha(c) && !std::isdigit(c)) {
+      prev_digit = -1;
+    } else if (std::isdigit(str[i])) {
+      prev_digit = i;
+    }
+  }
+
+ return str;
+}
+
+
+int main(void) { 
+   
+  // keep this function call here
+  cout << SwapII(coderbyteInternalStdinFunction(stdin));
+  return 0;
+    
+}
