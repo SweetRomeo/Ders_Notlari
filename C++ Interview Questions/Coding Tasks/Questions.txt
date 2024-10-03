@@ -1448,3 +1448,62 @@ int main(void) {
   return 0;
     
 }
+
+54-) Counting Minutes I
+Have the function CountingMinutesI(str) take the str parameter being passed which will be two times (each properly formatted with a colon and am or pm) separated by a 
+hyphen and return the total number of minutes between the two times. The time will be in a 12 hour clock format. For example: if str is 9:00am-10:00am then the output 
+should be 60. If str is 1:00pm-11:00am the output should be 1320.
+Examples
+Input: "12:30pm-12:00am"
+Output: 690
+Input: "1:23am-1:08am"
+Output: 1425
+
+Solution:
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+string CountingMinutesI(string str) {
+  
+  // code goes here  
+  size_t pos = str.find("-");
+  string start = str.substr(0,pos);
+  string end = str.substr(pos+1,str.length()-pos);
+
+  int startHours = atoi(start.substr(0,start.find(":")).c_str());
+  int startMinutes = atoi(start.substr(start.find(":")+1,str.length()-start.find(":")).c_str());
+
+  int startFrom = startHours*60 + startMinutes;
+  if(start.find("pm")!=string::npos)
+  {
+    startHours = startHours + 12;
+    startFrom = startHours*60 + startMinutes - 24*60;
+  }
+  
+
+  int endHours = atoi(end.substr(0,end.find(":")).c_str());
+  int endMinutes = atoi(end.substr(end.find(":")+1,str.length()-end.find(":")).c_str());
+
+  int endUntil = endHours*60 +endMinutes;
+  if(end.find("pm")!=string::npos)
+  {
+    endHours = endHours + 12;
+    endUntil = endHours*60 +endMinutes -24*60;
+  }
+  
+  string ret = std::to_string(abs(endUntil-startFrom));
+  if (endUntil < startFrom)
+    ret = std::to_string(24*60-abs(endUntil-startFrom));
+  return ret;
+
+}
+
+int main(void) { 
+  // keep this function call here
+  cout << CountingMinutesI(coderbyteInternalStdinFunction(stdin));
+  return 0;
+}
+
+55-) 
