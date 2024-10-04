@@ -187,6 +187,14 @@ elemanlarının birer birer bitsel ve işlemine sokarak
 sonucu döndüren Bitwisetwo isimli fonksiyonu yazınız
 ve test ediniz.
 
+Örnekler:
+
+Input: ["100", "000"]
+Output: 000
+
+Input: ["10100", "11100"]
+Output: 10100
+
 24-) StarRating
 Kendisine gönderilen yazı şeklinde yıldız reyting değerine
 bağlı aşağıdaki yazıları döndüren StarRating isimli fonksiyonu
@@ -1560,3 +1568,153 @@ int main(void) {
 }
 //-------------------------------------------------
 
+56-) Wave Sorting
+Have the function WaveSorting(arr) take the array of positive integers stored in arr and return the string true if the numbers can be arranged in a wave pattern: a1 > a2 < a3 > a4 < a5 > ..., otherwise return the string false. For example, if arr is: [0, 1, 2, 4, 1, 4], then a possible wave ordering of the numbers is: [2, 0, 4, 1, 4, 1]. So for this input your program should return the string true. The input array will always contain at least 2 elements. More examples are given below as sample test cases.
+Examples
+Input: {0, 1, 2, 4, 1, 1, 1}
+Output: false
+Input: {0, 4, 22, 4, 14, 4, 2}
+Output: true
+
+Solutions:
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+string WaveSorting(int arr[], int arrLength) {
+  sort(arr, arr+arrLength);
+  int newArr[arrLength];
+  int i = 0, j = arrLength / 2;
+  int idx = 0;
+  while (1){
+    newArr[idx++] = arr[j++];
+    newArr[idx++] = arr[i++];
+    if (j >= arrLength) break;
+  }
+  int k = 1;
+  while (k < arrLength){
+    if (newArr[k] >= newArr[k-1]) return "false";
+    k += 2;
+  }
+  if (arrLength % 2 == 1 && newArr[arrLength-1] <= newArr[arrLength-2]) return "false";
+  return "true";
+
+}
+
+int main(void) { 
+   
+  // keep this function call here
+  int A[] = coderbyteInternalStdinFunction(stdin);
+  int arrLength = sizeof(A) / sizeof(*A);
+  cout << WaveSorting(A, arrLength);
+  return 0;
+    
+}
+//---------------------------------------
+57-) Binary Reversal
+Have the function BinaryReversal(str) take the str parameter being passed, which will be a positive integer, take its binary representation (padded to the nearest N * 8 
+bits), reverse that string of bits, and then finally return the new reversed string in decimal form. For example: if str is "47" then the binary version of this integer is 
+101111 but we pad it to be 00101111. Your program should reverse this binary string which then becomes: 11110100 and then finally return the decimal version of this string, 
+which is 244.
+Examples
+Input: "213"
+Output: 171
+
+Input: "4567"
+Output: 60296
+
+Solutions:
+#include <iostream>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+typedef long long int lint;
+
+string BinaryReversal(string str) {
+
+  lint val = stoi(str);
+  string res = "";
+  while(val != 0 && val != 1){
+    int x = val%2;
+    val /= 2;
+    res += to_string(x);
+  }
+  res += to_string(val);
+  int change = res.size()%8 == 0 ? 8 * (res.size() / 8) : res.size() % 8;
+ 
+  int vall = res.size() < 8 ? 1:0;
+  int to_add = 8 * ( (res.size() / 8) + vall) - change;
+  while (to_add--) {
+    res += "0";
+  }
+  
+  int i = 0;
+  while (res[i] == '0') 
+	i++;
+  int n = res.size()-1;
+  int base = 0;
+  lint ress = 0;
+  while(n >= i){
+    if(res[n] == '1')
+      ress += ( 1 << base);
+    base++;
+    n--; 
+  }
+  return to_string(ress);
+}
+
+int main(void) { 
+  // keep this function call here
+  cout << BinaryReversal(gets(stdin));
+  return 0;
+}
+//----------------------------------------------
+58-) Next Palindrome
+Have the function NextPalindrome(num) take the num parameter being passed and return the next largest palindromic number. The input can be any positive integer. For 
+example: if num is 24, then your program should return 33 because that is the next largest number that is a palindrome.
+Examples
+
+Input: 2
+Output: 3
+
+Input: 180
+Output: 181
+
+Solution:
+
+#include <iostream>
+#include <string>
+#include <climits>
+
+using namespace std;
+
+int reverse(int val)
+{
+  int rev = 0;
+  while (val) {
+    rev *= 10;
+    rev += val % 10;
+    val /= 10;
+  }
+  return rev;
+}
+
+int NextPalindrome(int num) {
+    for (int i = num + 1; i < INT_MAX; ++i) {
+      if (i == reverse(i)) {
+        return i;
+      }
+    }
+    return -1;
+}
+
+int main(void) {  
+  // keep this function call here
+  cout << NextPalindrome(coderbyteInternalStdinFunction(stdin));
+  return 0; 
+}
+59-)
