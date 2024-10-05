@@ -329,6 +329,44 @@ Giriş: {"X:-1", "Y:1", "X:-4", "B:3", "X:5"}
 Giriş: {"P:6", "PI:1396", "PI:20", "P:-3"}
 Çıktı: P:3,PI:1416
 
+Solution:
+
+#include <iostream>
+#include <string>
+#include <map>
+
+using namespace std;
+
+string GroupTotals(string strArr[], int arrLength) {
+    map<string, int> groups;
+    
+    for (int i = 0; i < arrLength; ++i) {
+        auto search = strArr[i].find(':');
+        string groupName = strArr[i].substr(0, search);
+        int groupValue = stoi(strArr[i].substr(search + 1));
+        groups[groupName] += groupValue;
+    }
+    
+    string resultText;
+    for (const auto& [groupName, val] : groups) {
+        if (val != 0) {
+            resultText += groupName + ":" + to_string(val) + ",";
+        }
+    }
+    if (!resultText.empty()) {
+        resultText.pop_back();
+    }
+    
+    return resultText;
+}
+int main(void) { 
+  // keep this function call here
+  string A[] = coderbyteInternalStdinFunction(stdin);
+  int arrLength = sizeof(A) / sizeof(*A);
+  cout << GroupTotals(A, arrLength);
+  return 0;
+}
+
 36-) Fibonacci Checker
 Fibonacci serisi 1 1 2 3 5 8 13... şeklinde devam eden
 bir seridir. FibonacciChecker fonksiyonu kendisine gönderilen
@@ -1750,4 +1788,5 @@ int main(void) {
   cout << HDistance(A, arrLength);
   return 0;
 }
+
 60-) 
