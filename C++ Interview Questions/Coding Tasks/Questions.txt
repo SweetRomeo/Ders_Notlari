@@ -1905,4 +1905,42 @@ class Main {
 
 }
 
-62-) 
+62-) Triple Double
+TripleDouble(num1, num2) fonksiyonu, verilen iki parametreyi alır ve num1 içinde herhangi 
+bir yerde aynı rakamdan oluşan ardışık üçlü bir dizi ve num2 içinde de aynı rakamdan oluşan 
+ardışık ikili bir dizi varsa 1 döndürür. Örneğin: Eğer num1 451999277 ve num2 41177722899 ise, 
+1 döndürülür çünkü ilk parametrede 999 şeklinde ardışık üçlü var ve ikinci parametrede aynı rakamdan 
+oluşan 99 şeklinde ardışık ikili var. Eğer bu durum söz konusu değilse, 0 döndürülür. Örnekler
+
+Girdi: 465555 & num2 = 5579
+Çıktı: 1
+Girdi: 67844 & num2 = 66237
+Çıktı: 0
+
+Solution:
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int TripleDouble(long num1, long num2) {
+  string s1 = to_string(num1);
+  string s2 = to_string(num2);  
+
+  for (char c = '0'; c <= '9'; ++c) {
+      string Triple(3,c);
+      string Double(2,c);
+      if (s1.find(Triple) != string::npos && s2.find(Double) != string::npos) {
+        return 1;
+      }
+  }
+
+  return 0;
+
+}
+
+int main(void) { 
+   
+  cout << TripleDouble(coderbyteInternalStdinFunction(stdin));
+  return 0; 
+}
