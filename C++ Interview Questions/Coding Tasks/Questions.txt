@@ -1843,4 +1843,66 @@ int main(void) {
   return 0;
 }
 
-61-) 
+61-) Binary Converter
+Kendisine gönderilen binary türden bir yazıdan decimale dönüşüm yapan binary converter isimli fonksiyonu 
+yazınız ve test ediniz.
+Örnek girişler:
+Input: "100101"
+Output: 37
+
+Input: "011"
+Output: 3
+
+Çözüm C++:
+#include <iostream>
+#include <string>
+#include <cmath>
+
+using namespace std;
+
+string BinaryConverter(string str) {
+  
+  // code goes here
+  int base = 2;
+  int count = 0;
+  int result = 0;
+  for (int i = str.size() - 1; 0 <= i; --i) {
+      result += pow(base, count) * (str[i] - '0');
+      count++;
+  }  
+  return to_string(result);
+}
+
+int main(void) { 
+   
+  // keep this function call here
+  cout << BinaryConverter(coderbyteInternalStdinFunction(stdin));
+  return 0;
+}
+
+Çözüm Java:
+import java.util.*; 
+import java.io.*;
+
+class Main {
+
+  public static String BinaryConverter(String str) {
+    // code goes here
+    int times = 0;
+    int result = 0;
+    for (int i = str.length() - 1;0 <= i; --i) {
+        result += Math.pow(2, times) * (str.charAt(i) - '0');
+        times++;
+    }  
+    return Integer.toString(result);
+  }
+
+  public static void main (String[] args) {  
+    // keep this function call here     
+    Scanner s = new Scanner(System.in);
+    System.out.print(BinaryConverter(s.nextLine())); 
+  }
+
+}
+
+62-) 
