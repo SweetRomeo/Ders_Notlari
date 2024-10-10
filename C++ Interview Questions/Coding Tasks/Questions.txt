@@ -2249,4 +2249,100 @@ int main(void) {
     
 }
 
-67-)
+67-) Multiple Brackets
+Have the function MultipleBrackets(str) take the str parameter being passed and return 1 #ofBrackets 
+if the brackets are correctly matched and each one is accounted for. 
+Otherwise return 0. For example: if str is "(hello [world])(!)", then the output should be 1 3 because 
+all the brackets are matched and there are 3 pairs of brackets, but 
+if str is "((hello [world])" the the output should be 0 because the brackets do not correctly match up. 
+Only "(", ")", "[", and "]" will be used as brackets. If str contains no brackets return 1.
+
+Examples
+Input: "(coder)[byte)]"
+Output: 0
+
+Input: "(c([od]er)) b(yt[e])"
+Output: 1 5
+
+Solution: 
+#include <iostream>
+#include <string>
+using namespace std;
+
+string MultipleBrackets(string str) {
+
+  int parenthesisFirstOpened = 0;
+  int parenthesisFirstClosed = 0;
+  int parenthesisSecondOpened = 0;
+  int parenthesisSecondClosed = 0;
+  for (char c : str) {
+      switch (c) {
+        case '(':
+              parenthesisFirstOpened++;
+              break;
+        case ')':
+              parenthesisFirstClosed++;
+              break;
+        case '[':
+              parenthesisSecondOpened++;
+              break;
+        case ']':
+              parenthesisSecondClosed++;
+              break;            
+      }
+  }  
+  if (parenthesisFirstOpened == parenthesisFirstClosed && parenthesisSecondOpened == parenthesisSecondClosed) {
+    return "1 " + to_string(parenthesisFirstOpened + parenthesisSecondOpened);
+  }
+  return "0";
+}
+
+int main(void) { 
+   
+  // keep this function call here
+  cout << MultipleBrackets(coderbyteInternalStdinFunction(stdin));
+  return 0;
+    
+}
+Another Solution:
+#include <iostream>
+#include <string>
+#include <stack>
+using namespace std;
+
+bool isBracket(char ch) {
+  return ch == '[' || ch == ']' || ch == '(' || ch == ')';
+}
+
+string MultipleBrackets(string str) {
+  
+  // code goes here
+  stack<char> myStack;  
+  bool noBrackets = true;
+  unsigned int pairBracketCounter = 0;
+  for(unsigned int i = 0; i < str.length(); i++) {
+    if(isBracket(str[i])) {
+      noBrackets = false;
+      if(myStack.empty()) {
+        myStack.push(str[i]);
+      }
+      else if((myStack.top() == '[' && str[i] == ']') || (myStack.top() == '(' && str[i] == ')')) {
+        myStack.pop();
+        pairBracketCounter++;
+      }
+      else {
+        myStack.push(str[i]);
+      }
+    }
+  }
+  char ch;
+  return noBrackets || myStack.empty() ? string(1, '1') + ' ' + to_string(pairBracketCounter) : string(1, '0');
+
+}
+
+int main(void) { 
+   
+  cout << MultipleBrackets(gets(stdin));
+  return 0;
+}
+68-) 
