@@ -2200,3 +2200,53 @@ int main(void) {
   cout << boolalpha << SimpleEvens(coderbyteInternalStdinFunction(stdin));
   return 0;
 }
+66-) ThreeFive Multiples
+Have the function ThreeFiveMultiples(num) return the sum of all the multiples of 
+3 and 5 that are below num. For example: if num is 10, the multiples of 3 and 5 that are 
+below 10 are 3, 5, 6, and 9, and adding them up you get 23, so your program should return 23.
+The integer being passed will be between 1 and 100.
+
+Examples
+Input: 6
+Output: 8
+
+Input: 1
+Output: 0
+
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+int ThreeFiveMultiples(int num) {
+
+  vector<int> multiVec;
+  int base = 1;
+  while (true) {
+    if (3 * base < num) {
+      multiVec.push_back(3 * base);
+      if (5 * base < num && base % 3 != 0) {
+        multiVec.push_back(5 * base);
+      }
+    }
+    else {
+      break;
+    }
+    base++;
+  } 
+  int sum = 0;
+
+  for (auto& element : multiVec) {
+    sum += element;
+  }
+  return sum;
+}
+
+int main(void) { 
+   
+  cout << ThreeFiveMultiples(coderbyteInternalStdinFunction(stdin));
+  return 0;
+    
+}
+
+67-)
