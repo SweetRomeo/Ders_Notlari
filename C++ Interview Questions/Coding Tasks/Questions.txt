@@ -2345,4 +2345,40 @@ int main(void) {
   cout << MultipleBrackets(gets(stdin));
   return 0;
 }
-68-) 
+68-) Distinct Characters
+Have the function DistinctCharacters(str) take the str parameter being passed and determine if it contains at 
+least 10 distinct characters, if so, then your program should 
+return the string true, otherwise it should return the string false. For example: if str is "abc123kkmmmm?" 
+then your program should return the string false because this string contains only 9 
+distinct characters: a, b, c, 1, 2, 3, k, m, ? adds up to 9.
+
+Examples
+Input: "12334bbmma:=6"
+Output: true
+
+Input: "eeeemmmmmmmmm1000"
+Output: false
+
+Solution:
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string DistinctCharacters(string str) {
+
+  string distinctText;
+  for (int i = 0; i < str.size(); ++i) {
+    if (auto search = distinctText.find(str[i]); search == string::npos) {
+       distinctText += str[i];
+    } 
+  }
+  return distinctText.size() >= 10 ? "true" : "false";
+}
+
+int main(void) { 
+   
+  cout << DistinctCharacters(coderbyteInternalStdinFunction(stdin));
+  return 0;
+}
+69-)
