@@ -2381,4 +2381,92 @@ int main(void) {
   cout << DistinctCharacters(coderbyteInternalStdinFunction(stdin));
   return 0;
 }
-69-)
+69-) Correct Path
+Have the function CorrectPath(str) read the str parameter being passed, which will represent the movements made in a 5x5 
+grid of cells starting from the top left position. The characters in the input string will be entirely composed of: r, l, u, d, ?. Each of the 
+characters stand for the direction to take within the grid, for example: r = right, l = left, u = up, d = down. 
+Your goal is to determine what characters the question marks should be in order for a path to be created to go from the top left of the grid all the way to 
+the bottom right without touching previously travelled on cells in the grid.
+
+For example: if str is "r?d?drdd" then your program should output the final correct string that will allow a path to be formed from the top left of a 5x5 grid to the bottom right. 
+For this input, your program should therefore return the string rrdrdrdd. There will only ever be one correct path and there will always be at least one question mark within the input string.
+Examples:
+Input: "???rrurdr?"
+Output: dddrrurdrd
+
+Input: "drdr??rrddd?"
+Output: drdruurrdddd
+
+Solution:
+#include <iostream>
+#include <string>
+using namespace std;
+
+string CorrectPath(string str, bool traveled[5][5], int startx, int starty, int move) {
+    //cout<<"Path: "<< str << " length: " << str.length() << " x: " << startx << " y: "<< starty << " move: " << move <<endl;
+    if(startx==4&&starty==4&&move==(str.length())){
+        //cout<<"found it"<<endl;
+        return str;
+    }
+    if(move>=str.length()||startx>4||starty>4||startx<0||starty<0){
+        //cout<<"Out of bounds"<<endl;
+        return "";
+    }
+    /*if(traveled[startx][starty]){
+        cout<<"Already visited"<<endl;
+        return "";
+    }*/
+    traveled[startx][starty] = true;
+    if(str[move]=='?'){
+        string str1 = str;
+        string str2 = str;
+        string str3 = str;
+        string str4 = str;
+        str1[move]='r';
+        str2[move]='d';
+        str3[move]='u';
+        str4[move]='l';
+        str1=CorrectPath(str1,traveled,startx+1,starty,move+1);
+        str2=CorrectPath(str2,traveled,startx,starty+1,move+1);
+        str3=CorrectPath(str3,traveled,startx,starty-1,move+1);
+        str4=CorrectPath(str4,traveled,startx-1,starty,move+1);
+        if(str1!=""){
+            //cout<<"Right move worked"<<endl;
+            return str1;
+        }else if(str2!=""){
+            //cout<<"down move worked"<<endl;
+            return str2;
+        }else if(str3!=""){
+            //cout<<"up move worked"<<endl;
+            return str3;
+        }else if(str4!=""){
+            //cout<<"left move worked"<<endl;
+            return str4;
+        }else{
+            //cout<<"no move worked"<<endl;
+            return "";
+        }
+    }else{
+        if(str[move]=='r'){
+            //cout<<"Move right"<<endl;
+             return CorrectPath(str,traveled,startx+1,starty,move+1);
+        }else if(str[move]=='l'){
+            //cout<<"Move left"<<endl;
+            return CorrectPath(str,traveled,startx-1,starty,move+1);
+        }else if(str[move]=='u'){
+            //cout<<"Move up"<<endl;
+            return CorrectPath(str,traveled,startx,starty-1,move+1);
+        }else {
+            //cout<<"Move down"<<endl;
+            return CorrectPath(str,traveled,startx,starty+1,move+1);
+        }
+    }
+}
+
+int main() { 
+  bool traveled[5][5] = { {false} };
+  cout << CorrectPath(gets(stdin),traveled,0,0,0);
+  return 0;
+}
+
+70-) 
