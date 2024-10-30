@@ -2469,4 +2469,37 @@ int main() {
   return 0;
 }
 
-70-) 
+70-) Consecutive
+Have the function Consecutive(arr) take the array of integers stored in arr and return the minimum number of 
+integers needed to make the contents of arr consecutive from the lowest number to the highest number. 
+For example: If arr contains [4, 8, 6] then the output should be 2 because two numbers need to be added to the 
+array (5 and 7) to make it a consecutive array of numbers from 4 to 8. Negative numbers may be entered as parameters and no array will have less than 2 elements.
+
+using namespace std;
+
+int Consecutive(int arr[], int arrLength) {
+  
+  // code goes here
+  int max = arr[0];
+  int min = arr[0];
+  for (int i = 1; i < arrLength; ++i) {
+    if (max < arr[i]) {
+      max = arr[i];
+    }
+    if (min > arr[i]) {
+      min = arr[i];
+    }
+  }
+
+  return max - min - (arrLength - 2) - 1;
+}
+
+int main(void) { 
+   
+  int A[] = coderbyteInternalStdinFunction(stdin);
+  int arrLength = sizeof(A) / sizeof(*A);
+  cout << Consecutive(A, arrLength);
+  return 0;
+}
+
+71-)
