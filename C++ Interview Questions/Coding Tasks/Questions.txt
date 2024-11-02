@@ -2502,4 +2502,12 @@ int main(void) {
   return 0;
 }
 
-71-)
+71-) Distinct List
+Kendisine gönderilen dizinin içerisinde toplam tekrar eden sayısını veren DistictList isimli fonksiyonu yazınız ve test ediniz. 
+Giriş: {1, 2, 2, 2, 3}
+Çıktı: 2
+Giriş: {0,-2,-2,5,5,5}
+Çıktı: 3
+Giriş: {100,2,101,4}
+Çıktı: 0
+
