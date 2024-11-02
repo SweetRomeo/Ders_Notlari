@@ -2511,3 +2511,26 @@ Giriş: {0,-2,-2,5,5,5}
 Giriş: {100,2,101,4}
 Çıktı: 0
 
+Solution:
+#include <iostream>
+#include <string>
+using namespace std;
+
+int DistinctList(int arr[], int arrLength) {
+  int dubliCount = 0;
+  for (int i = 0; i < arrLength - 1; ++i) {
+    if (arr[i] == arr[i + 1]) {
+      ++dubliCount;
+    }
+  } 
+  return dubliCount;
+}
+
+int main(void) { 
+
+  int A[] = coderbyteInternalStdinFunction(stdin);
+  int arrLength = sizeof(A) / sizeof(*A);
+  cout << DistinctList(A, arrLength);
+  return 0;
+    
+}
